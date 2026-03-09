@@ -1,0 +1,162 @@
+_meta:
+  platform: "google"
+  category: "common_rejections"
+  source_url: "https://support.google.com/googleplay/android-developer/topic/9855828"
+  section_id: "rejections"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-rejection-1"
+    title: "Policy: Deceptive Behavior"
+    summary: "Misleading store listings, fake functionality claims."
+    check_criteria:
+      - "Is the app's core functionality clearly and accurately described in the metadata?"
+      - "Are all promised features available within the app without unreasonable conditions?"
+    code_signals:
+      - "Check store listing strings for exaggerated claims (e.g., 'virus scanner' in an app without antivirus SDKs)"
+      - "Look for hidden UI elements that only appear after installation or specific triggers to bypass review"
+    common_violations:
+      - "\"We rejected your app because it claims to perform a function (like checking blood pressure directly through screen touch) that is not possible on the device.\""
+      - "\"Your store listing uses screenshots from other popular games instead of your actual gameplay.\""
+      - "\"The app promises free movies but primarily acts as an over-simplistic quiz app.\""
+    related_rules:
+      - "google-store-listing-promotion-1"
+
+  - id: "google-rejection-2"
+    title: "Policy: Privacy/Data Safety"
+    summary: "Inaccurate Data Safety section, missing privacy policy, unauthorized data collection."
+    check_criteria:
+      - "Does the Data Safety form perfectly match the actual data collection and sharing practices in the code?"
+      - "Is a privacy policy linked in the Play Console and within the app?"
+    code_signals:
+      - "Search for unmentioned data collection (e.g., location APIs 'getLastKnownLocation' when not declared in Data Safety)"
+      - "Check for third-party SDKs that collect personal data without user consent"
+    common_violations:
+      - "\"Your Data Safety section states no data is shared with third parties, but your app uses a crash analytics SDK that transmits device IDs and IP addresses.\""
+      - "\"The privacy policy URL provided in the Play Console returns a 404 error or is not a valid webpage.\""
+      - "\"We found your app collects location data without prominently disclosing this in a privacy policy before collection occurs.\""
+      - "\"Your app connects to an external server and transmits the user's installed package list without proper disclosure.\""
+    related_rules:
+      - "google-privacy-deception-device-abuse-1"
+      - "google-technical-data-safety-section"
+
+  - id: "google-rejection-3"
+    title: "Policy: Permissions"
+    summary: "Unnecessary dangerous permissions, QUERY_ALL_PACKAGES misuse, SMS/Call Log restrictions."
+    check_criteria:
+      - "Are only the minimum necessary permissions requested?"
+      - "If QUERY_ALL_PACKAGES is used, is it justified by the app's core functionality (e.g., launcher, antivirus)?"
+    code_signals:
+      - "Check AndroidManifest.xml for 'QUERY_ALL_PACKAGES'"
+      - "Look for 'READ_SMS', 'RECEIVE_SMS', 'READ_CALL_LOG', 'WRITE_CALL_LOG' permissions without being the default handler"
+    common_violations:
+      - "\"Your app requests the QUERY_ALL_PACKAGES permission, but based on our review, your app's core purpose does not require broad visibility into installed apps.\""
+      - "\"We rejected your app because it requests access to restricted permissions (SMS/Call Log) without being the default dialer or SMS app.\""
+      - "\"Your flashlight app requests location permission, which is not related to the core functionality.\""
+    related_rules:
+      - "google-technical-permissions-declarations"
+
+  - id: "google-rejection-4"
+    title: "Policy: Ads"
+    summary: "Disruptive ads, ads outside app, deceptive ad formats."
+    check_criteria:
+      - "Are all interstitial ads accompanied by a clear, functioning close button?"
+      - "Do ads only appear when the app is active and in focus?"
+    code_signals:
+      - "Search for ad loading logic in background services or broadcast receivers"
+      - "Look for interstitial ads that are configured to be unskippable for an extended period"
+    common_violations:
+      - "\"We found your app displays ads that interfere with normal app use. Specifically, an interstitial ad appears immediately after the user dismisses the app.\""
+      - "\"Your app displays ads outside of the app environment, such as on the home screen or lock screen.\""
+      - "\"We noticed the ads in your app mimic the system's user interface to trick users into clicking them.\""
+    related_rules:
+      - "google-monetization-ads-2"
+
+  - id: "google-rejection-5"
+    title: "Policy: Families"
+    summary: "Kids app with non-certified ad SDKs, collecting child data."
+    check_criteria:
+      - "If the target audience includes children, are only Google Play Certified Ad Networks used?"
+      - "Is data collection from children strictly minimized and compliant with COPPA/GDPR-K?"
+    code_signals:
+      - "Check for non-certified ad SDKs (e.g., standard Google Mobile Ads without checking the 'TagForChildDirectedTreatment' flag)"
+      - "Look for collection of precise location or AAID in apps targeting children"
+    common_violations:
+      - "\"Your app's target audience includes children, but it uses an ad network that is not part of the Families Ads Program.\""
+      - "\"We found your kids' app transmits the Advertising ID (AAID), which is not permitted for apps targeting children.\""
+      - "\"The app contains content (e.g., mature themes, violence) that is inappropriate for the declared age group of 5-8 years.\""
+    related_rules:
+      - "google-families-policy-1"
+
+  - id: "google-rejection-6"
+    title: "Policy: Billing"
+    summary: "Using external payment for digital goods."
+    check_criteria:
+      - "Are all digital goods, services, and subscriptions sold using Google Play's billing system?"
+    code_signals:
+      - "Search for 'Stripe', 'PayPal', or other alternative payment gateways handling digital purchases"
+      - "Check for links out to website portals to purchase subscriptions"
+    common_violations:
+      - "\"Your app requires users to purchase digital currency for in-game use via a third-party payment system instead of Google Play Billing.\""
+      - "\"Your app directs users to a website to purchase a premium subscription that unlocks features within the app.\""
+    related_rules:
+      - "google-monetization-ads-1"
+      - "shared-payment-rules"
+
+  - id: "google-rejection-7"
+    title: "Policy: Content Rating"
+    summary: "Inaccurate IARC questionnaire."
+    check_criteria:
+      - "Does the IARC content rating accurately reflect all content within the app, including user-generated content and ads?"
+    code_signals:
+      - "Search for highly explicit text strings, suggestive imagery, or simulated gambling features not disclosed in the rating"
+    common_violations:
+      - "\"We found that your app's content rating is inaccurate. The app contains frequent coarse language and violence, but is rated for 'Everyone 3+'.\""
+      - "\"Based on the in-app chat capability, this app must be rated properly and cannot target young children without moderation.\""
+    related_rules:
+      - "shared-content-rating"
+
+  - id: "google-rejection-8"
+    title: "Policy: Malware/MUwS"
+    summary: "Dynamic code loading, stalkerware behavior."
+    check_criteria:
+      - "Does the app strictly avoid downloading and executing code (e.g., DEX, JAR, .so) from external sources?"
+      - "Does the app avoid monitoring the user invisibly or transmitting sensitive data without explicit consent?"
+    code_signals:
+      - "Search for 'DexClassLoader', 'PathClassLoader', or similar classes loading code from network paths"
+      - "Look for hidden background services constantly recording audio or logging keystrokes"
+    common_violations:
+      - "\"Your app contains code that downloads executable code (e.g., dex, JAR, .so files) from a source other than Google Play.\""
+      - "\"We found your app acts as stalkerware by secretly transmitting the user's location and SMS messages to a third party without adequate ongoing notification.\""
+    related_rules:
+      - "google-malware-mups-1"
+
+  - id: "google-rejection-9"
+    title: "Technical: Target API"
+    summary: "Outdated targetSdkVersion."
+    check_criteria:
+      - "Is the app's 'targetSdkVersion' set to the latest required API level?"
+    code_signals:
+      - "Check 'build.gradle' (Android) for 'targetSdkVersion' value and ensure it meets Google's current requirement (e.g., API 34+)"
+    common_violations:
+      - "\"Your app's target API level is too low. To provide users with a secure experience, Google Play requires all new apps and app updates to target API level 34 or higher.\""
+    related_rules:
+      - "google-technical-target-api-level"
+
+  - id: "google-rejection-10"
+    title: "Technical: AAB Format"
+    summary: "Submitting APK instead of AAB, signing key mismatch."
+    check_criteria:
+      - "Is the app being published using the Android App Bundle (.aab) format instead of an APK?"
+      - "Does the update use the correct release signing key?"
+    code_signals:
+      - "Check build scripts for 'assembleRelease' (APK) instead of 'bundleRelease' (AAB)"
+      - "Verify the keystore alias and passwords correctly map to the original release key"
+    common_violations:
+      - "\"We no longer accept APKs for new apps. Please upload an Android App Bundle (.aab).\""
+      - "\"Upload failed. You uploaded an APK that is signed with a different certificate to your previous APKs.\""
+    related_rules:
+      - "google-technical-app-signing"

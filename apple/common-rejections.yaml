@@ -1,0 +1,187 @@
+_meta:
+  platform: "apple"
+  category: "common_rejections"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "rejections"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-rejection-1"
+    title: "Guideline 2.1 - Crashes and Bugs"
+    summary: "App crashes on launch or features are incomplete."
+    check_criteria:
+      - "Does the app launch successfully on all supported devices without crashing?"
+      - "Are all documented features present and fully functional?"
+      - "Does the app handle offline states gracefully without crashing?"
+    code_signals:
+      - "Check for 'fatalError' or forced unwrapping '!' in Swift without proper conditionals"
+      - "Search for 'TODO', 'FIXME', or 'Coming soon' in UI facing code"
+      - "Look for 'NSException' or uncaught exceptions in Objective-C"
+    common_violations:
+      - "\"We discovered one or more bugs in your app when reviewed on iPad running iOS. Specifically, your app crashed on launch.\""
+      - "\"When we tapped on the 'Share' button, nothing happened. The functionality must be complete before submission.\""
+      - "\"Your app displayed placeholder text ('Lorem Ipsum') on the main dashboard screen.\""
+      - "\"The app crashed when we denied camera permission and tried to proceed.\""
+    related_rules:
+      - "apple-2.1"
+
+  - id: "apple-rejection-2"
+    title: "Guideline 2.3 - Metadata Issues"
+    summary: "Inaccurate screenshots, misleading descriptions, placeholder text."
+    check_criteria:
+      - "Do the screenshots accurately reflect the app in use?"
+      - "Is the app description accurate and not misleading?"
+      - "Has all placeholder text been removed from screenshots and description?"
+    code_signals:
+      - "Search for 'Lorem ipsum' or 'Placeholder' in Fastlane metadata or App Store Connect text"
+      - "Check if screenshots contain device frames that don't match the target device (e.g., iPhone frame in iPad screenshot)"
+    common_violations:
+      - "\"Your App Store screenshots do not sufficiently reflect your app in use. Screenshots must show the app interface, not just promotional artwork.\""
+      - "\"We noticed your app's subtitle includes promotional keywords ('#1 App') rather than explaining the app's value.\""
+      - "\"The app's screenshots show an Android device, which is not appropriate for the App Store.\""
+      - "\"Your app description mentions 'Beta' or 'Trial', which are not permitted.\""
+    related_rules:
+      - "apple-2.3"
+
+  - id: "apple-rejection-3"
+    title: "Guideline 3.1.1 - IAP Required"
+    summary: "Using external payment mechanisms for digital goods or services."
+    check_criteria:
+      - "Are all digital goods, services, and subscriptions sold using Apple's in-app purchase system?"
+      - "Are there any links or buttons that direct users to an external website for purchasing digital content?"
+    code_signals:
+      - "Search for 'Stripe', 'PayPal', or 'Braintree' SDKs being used for digital goods"
+      - "Look for URLs in the app pointing to 'checkout', 'subscribe', or 'upgrade' on an external website"
+      - "Check for phrases like 'manage subscription on website' or 'upgrade online'"
+    common_violations:
+      - "\"We found that your app allows users to purchase digital content or services using payment mechanisms other than in-app purchase.\""
+      - "\"Your app includes a link to your website where users can register for an account and purchase a subscription that is consumed within the app.\""
+      - "\"The app prompts users to enter credit card information directly for a premium feature upgrade.\""
+    related_rules:
+      - "apple-3.1.1"
+      - "shared-payment-rules"
+
+  - id: "apple-rejection-4"
+    title: "Guideline 4.0 - Design: Copycat"
+    summary: "Cloning existing apps or using intellectual property without permission."
+    check_criteria:
+      - "Is the app's design, name, and icon sufficiently distinct from existing popular apps?"
+      - "Does the app avoid copying the core mechanics and UI of successful apps?"
+    code_signals:
+      - "Search for asset names or string configurations that exactly match popular games/apps (e.g., 'Flappy', 'Wordle')"
+      - "Look for exact layout duplications of well-known interfaces without unique features"
+    common_violations:
+      - "\"Your app's interface and functionality are too similar to an existing popular app on the App Store.\""
+      - "\"We noticed that your app appears to be a clone of [App Name], which violates our policies against copycat apps.\""
+      - "\"The app icon and name attempt to piggyback on the success of a well-known franchise.\""
+    related_rules:
+      - "apple-4.1"
+
+  - id: "apple-rejection-5"
+    title: "Guideline 4.2 - Minimum Functionality"
+    summary: "Webview-only apps, excessively simple utility apps."
+    check_criteria:
+      - "Does the app provide value beyond simply wrapping a website?"
+      - "Are native iOS features utilized to enhance the experience?"
+    code_signals:
+      - "Check for apps that consist almost entirely of a single WKWebView occupying the whole screen"
+      - "Search for missing native navigation controllers (UINavigationController, UITabBarController)"
+    common_violations:
+      - "\"We found that the experience your app provides is not sufficiently different from a web browsing experience, as it primarily consists of a web view.\""
+      - "\"Your app is too simple and does not provide enough robust features or functionality to be considered appropriate for the App Store.\""
+      - "\"The app appears to be a simple marketing brochure without interactive features.\""
+    related_rules:
+      - "apple-4.2"
+
+  - id: "apple-rejection-6"
+    title: "Guideline 4.3 - Spam"
+    summary: "Multiple similar apps from the same developer or template-based apps."
+    check_criteria:
+      - "Is this app distinct from other apps published by the same developer account?"
+      - "If using a template, has it been significantly modified to provide a unique experience?"
+    code_signals:
+      - "Look for white-label app configuration patterns with minimal differences (just changing 'theme_color' and 'logo')"
+      - "Check for generic package names or bundle IDs typical of app generators"
+    common_violations:
+      - "\"We noticed that your app provides the same feature set as other apps you've submitted to the App Store; it simply varies in content or language.\""
+      - "\"This app appears to be created from a commercialized template and does not provide a sufficiently unique experience.\""
+      - "\"To avoid rejection, we recommend combining your similar apps into a single 'container' app.\""
+    related_rules:
+      - "apple-4.3"
+
+  - id: "apple-rejection-7"
+    title: "Guideline 5.1.1 - Privacy: Data Collection"
+    summary: "Missing privacy policy, no account deletion mechanism, misleading data collection descriptions."
+    check_criteria:
+      - "Is a valid Privacy Policy link provided in App Store Connect and within the app?"
+      - "Does the app include a clear, accessible option for users to delete their account and associated data?"
+      - "Are all purpose strings (usage descriptions) in Info.plist detailed and accurate?"
+    code_signals:
+      - "Check Info.plist for generic descriptions like 'App needs camera access' instead of specific reasons"
+      - "Search the app's UI code for terms like 'delete account', 'remove account', or 'close account'"
+      - "Look for API calls to an account deletion endpoint"
+    common_violations:
+      - "\"We noticed that your app requires users to create an account, but does not include a feature that allows users to initiate the deletion of their account within the app.\""
+      - "\"Your app's privacy policy URL does not lead to a valid privacy policy document.\""
+      - "\"The NSCameraUsageDescription provided in your Info.plist is not sufficiently clear about how the app will use the requested camera data.\""
+    related_rules:
+      - "apple-5.1.1"
+      - "shared-account-deletion"
+
+  - id: "apple-rejection-8"
+    title: "Guideline 5.1.2 - Privacy: Tracking"
+    summary: "Missing App Tracking Transparency (ATT) prompt, tracking before permission, fingerprinting."
+    check_criteria:
+      - "Is the App Tracking Transparency (ATT) framework implemented if the app tracks users across other apps or websites?"
+      - "Does the app refrain from tracking if the user denies ATT permission?"
+    code_signals:
+      - "Check for imports of 'AppTrackingTransparency' and calls to 'ATTrackingManager.requestTrackingAuthorization'"
+      - "Monitor for IDFA access ('ASIdentifierManager.shared().advertisingIdentifier') without prior ATT authorization"
+      - "Look for third-party SDKs known for tracking (e.g., Facebook SDK, AppsFlyer) initializing before ATT consent"
+    common_violations:
+      - "\"We found that your app tracks users or accesses their device's advertising identifier, but does not use the App Tracking Transparency framework to request the user's permission.\""
+      - "\"Your app collects device-identifying data that could be used for fingerprinting, which is not allowed even if the user grants tracking permission.\""
+      - "\"The custom prompt displayed before the system ATT prompt inappropriately incentivizes users to allow tracking.\""
+    related_rules:
+      - "apple-5.1.2"
+
+  - id: "apple-rejection-9"
+    title: "Guideline 4.8 - Sign in with Apple"
+    summary: "Missing Sign in with Apple when third-party or social login options are provided."
+    check_criteria:
+      - "If the app uses third-party or social login (e.g., Facebook, Google, X), is Sign in with Apple also offered as an equivalent option?"
+      - "Is the Sign in with Apple button prominently displayed and functioning correctly?"
+    code_signals:
+      - "Search for 'FBSDKLoginKit', 'GoogleSignIn', or other third-party login SDKs"
+      - "Check if 'AuthenticationServices' (ASAuthorizationAppleIDProvider) is implemented alongside third-party logins"
+      - "Ensure the Sign in with Apple button conforms to Apple's design guidelines (ASAuthorizationAppleIDButton)"
+    common_violations:
+      - "\"Your app uses a third-party login service (such as Facebook Login or Google Sign-In) but does not offer Sign in with Apple as an equivalent option.\""
+      - "\"The Sign in with Apple button in your app is not prominently displayed compared to other login options.\""
+      - "\"We tapped 'Sign in with Apple' and received an error. The feature must be fully implemented and working.\""
+    related_rules:
+      - "apple-4.8"
+      - "shared-login-requirements"
+
+  - id: "apple-rejection-10"
+    title: "ITMS Upload Errors"
+    summary: "Invalid binary, missing provisioning profile, icon alpha channel, outdated SDK."
+    check_criteria:
+      - "Does the app icon avoid using transparency or alpha channels?"
+      - "Is the app built with the required minimum iOS SDK version?"
+      - "Are all provisioning profiles and signing certificates valid and matched?"
+    code_signals:
+      - "Check AppIcon in Assets.xcassets to ensure images have no alpha channel (alpha: false)"
+      - "Verify the 'IPHONEOS_DEPLOYMENT_TARGET' and the base SDK version in the Xcode project settings"
+      - "Check for valid bundle identifiers matching the App Store Connect record"
+    common_violations:
+      - "\"ITMS-90717: Invalid App Store Icon. The App Store Icon in the asset catalog in your app must not contain an alpha channel or transparencies.\""
+      - "\"ITMS-90725: SDK Version Issue. This app was built with the iOS 14.0 SDK. Starting April 2023, all iOS apps submitted to the App Store must be built with the iOS 16.1 SDK or later.\""
+      - "\"ITMS-90161: Invalid Provisioning Profile. The provisioning profile included in the bundle is invalid.\""
+      - "\"ITMS-90683: Missing Purpose String in Info.plist. Your app's code references one or more APIs that access sensitive user data...\""
+    related_rules:
+      - "apple-technical-app-signing"
+      - "apple-technical-info-plist-requirements"
