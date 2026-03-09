@@ -1,0 +1,26 @@
+_meta:
+  platform: "apple"
+  category: "technical"
+  source_url: "https://reactnative.dev/docs/publishing-to-app-store"
+  section_id: "rn-ios"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-rn-1"
+    title: "React Native iOS Specifics"
+    summary: "React native specific considerations around the Hermes/JSC engine, CodePush/EAS Update compliance, and native module entitlements."
+    check_criteria:
+      - "If using CodePush/EAS, does it primarily update JavaScript assets and not deviate from the app's initial intended purpose?"
+      - "Are the privacy manifests (PrivacyInfo.xcprivacy) for all included React Native native modules appropriately merged or provided?"
+    code_signals:
+      - "Check ios/Podfile for ':hermes_enabled'"
+      - "Check package.json for 'react-native-code-push' or 'expo-updates'"
+    common_violations:
+      - "App Store Review Guideline 2.5.2 violation: The app dynamically downloads executable code that changes the primary purpose of the app."
+    platform_specific:
+      react_native:
+        - "Hermes engine is recommended but must not dynamically link in a way that violates Apple's dynamic code execution policies."
+        - "Native modules frequently forget to include PrivacyInfo manifests, causing generic ITMS-91053 rejections."

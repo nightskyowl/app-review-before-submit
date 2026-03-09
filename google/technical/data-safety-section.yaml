@@ -1,0 +1,25 @@
+_meta:
+  platform: "google"
+  category: "technical"
+  source_url: "https://support.google.com/googleplay/android-developer/answer/10787469"
+  section_id: "data-safety"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-data-safety-1"
+    title: "Data Safety Section Accuracy"
+    summary: "Developers must provide an accurate Data Safety section in Play Console detailing all data collection and sharing, including third-party SDKs."
+    check_criteria:
+      - "Does the Data Safety declaration match the actual data collection behavior?"
+      - "Are third-party SDK data practices included in the declaration?"
+      - "Is a valid data deletion policy URL provided if account creation is supported?"
+    code_signals:
+      - "Check network requests to endpoints gathering analytics, crash reporting, or user data."
+      - "Review included third-party SDKs in build.gradle dependencies to ensure they don't silently collect data omitted from Data Safety."
+    common_violations:
+      - "Your app's Data Safety section is inaccurate. We found that your app collects Location data but this is not declared."
+    related_rules:
+      - "apple-privacy-manifest-1"

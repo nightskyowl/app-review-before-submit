@@ -1,0 +1,26 @@
+_meta:
+  platform: "apple"
+  category: "technical"
+  source_url: "https://developer.apple.com/support/code-signing/"
+  section_id: "code-signing"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-signing-1"
+    title: "Valid Distribution Certificate and Provisioning Profile"
+    summary: "App must be signed with a valid distribution certificate and include a valid App Store provisioning profile."
+    check_criteria:
+      - "Is the app signed with an Apple Distribution Certificate?"
+      - "Does the provisioning profile include the correct bundle identifier and entitlements?"
+    code_signals:
+      - "Check ios/Runner.xcodeproj for CODE_SIGN_IDENTITY setting"
+      - "Look for 'Apple Distribution' in PROVISIONING_PROFILE_SPECIFIER"
+    common_violations:
+      - "ITMS-90034: Missing or invalid signature. The bundle is not signed using an Apple Submission Certificate."
+      - "ITMS-90161: Invalid Provisioning Profile. The provisioning profile included in the bundle is invalid."
+    related_rules:
+      - "google-signing-1"
+    notes: "Automatic Code Signing is recommended in Xcode to prevent these issues."

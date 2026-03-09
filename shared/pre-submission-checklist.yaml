@@ -1,0 +1,120 @@
+_meta:
+  platform: "shared"
+  category: "pre-submission-checklist"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "shared-presubmission"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "shared-presubmission-1"
+    title: "No Placeholder Content"
+    summary: "The app must be a final, complete version free of 'Lorem Ipsum', 'TODO' strings, blank template UI views, or dummy domains like 'example.com'."
+    check_criteria:
+      - "Is the app completely rid of placeholder text, broken links, or blank screens?"
+    code_signals:
+      - "Search for 'lorem ipsum', 'test', 'TODO', 'FIXME', or 'example.com' in visible app strings or navigation URLs."
+    common_violations:
+      - "Rejection for an 'About Us' app page displaying 'Lorem ipsum dolor sit amet'."
+      - "Rejection for tapping a 'Terms and Conditions' button that leads to 'http://example.com'."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.1"
+      - "google-spam-4"
+    notes: "Reviewers will click every link to verify it goes to a functioning webpage."
+
+  - id: "shared-presubmission-2"
+    title: "No Beta/Test Labels"
+    summary: "Apps distributed via production channels (the App Store or Google Play Store) must not explicitly brand themselves as incomplete, 'Beta', 'Demo', or 'Test' versions in the UI or app icon."
+    check_criteria:
+      - "Does the app icon, title, splash screen, or primary UI avoid explicit 'Beta', 'Alpha', or 'Test' labels?"
+    code_signals:
+      - "Search for 'beta' or 'test' strings in the app title (`CFBundleDisplayName` or `android:label`) and launch screens."
+    common_violations:
+      - "Rejection for placing a 'BETA' sash explicitly across the corner of the deployed app icon."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.2"
+      - "google-promotion-2"
+    notes: "If you want to run a beta, you must use TestFlight (Apple) or an Internal/Closed Testing Track (Google)."
+
+  - id: "shared-presubmission-3"
+    title: "Screenshots Reflect Actual Usage"
+    summary: "The main screenshots submitted with the app metadata must accurately depict the app in use, rather than consisting only of the app icon, stylized marketing art without UI, or fake hardware interactions."
+    check_criteria:
+      - "Do the app screenshots genuinely represent the application's core functionality rather than just marketing graphics?"
+    code_signals:
+      - "N/A - Manual review of submitted assets."
+    common_violations:
+      - "Rejection for using only the app logo as the screenshot."
+      - "Rejection for submitting screenshots of premium features without disclosing they are behind a paywall."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.3.3"
+      - "google-promotion-2"
+    notes: "All text and annotations overlaying the actual screen capture must be truthful and non-deceptive."
+
+  - id: "shared-presubmission-4"
+    title: "Privacy Policy URL is Valid"
+    summary: "The app must include a valid Privacy Policy URL in its metadata that resolves correctly without a 404 or redirect loop, and clearly details how data is handled."
+    check_criteria:
+      - "Does the App Store / Play Store Privacy Policy URL actually resolve to a live, functional webpage?"
+    code_signals:
+      - "Check for functional HTTP response codes on all URLs configured in store metadata dashboards."
+    common_violations:
+      - "Rejection for a 'Server Not Found' or '404 Error' when clicking the privacy policy link."
+      - "Rejection for linking simply to the company's homepage without providing a dedicated privacy policy."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+      - "google-privacy-1"
+    notes: ""
+
+  - id: "shared-presubmission-5"
+    title: "All Features Functional (No Crashes)"
+    summary: "The app must be completely stable upon a clean install. It must not crash during standard operation, especially right upon launching."
+    check_criteria:
+      - "Does the application successfully launch without crashing or producing an ANR/Force Close error?"
+      - "Are all navigation paths and advertised functional buttons responsive?"
+    code_signals:
+      - "Review remote crash monitoring services (Firebase Crashlytics, Sentry) internally before submitting."
+      - "Watch for 'NullPointerException' (Android) or 'EXC_BAD_ACCESS' (iOS) during launch."
+    common_violations:
+      - "Immediate rejection for attempting to execute a network request on the main thread to a server that is down, causing an unhandled loop crash at launch."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.1"
+      - "google-spam-3"
+    notes: "Apps that instantly crash upon the first launch by a reviewer will automatically fail review."
+
+  - id: "shared-presubmission-6"
+    title: "Correct Category Selection"
+    summary: "The primary operational category chosen for the app must match the actual content and purpose of the app."
+    check_criteria:
+      - "Is the selected metadata category the most appropriate, accurate fit for the app?"
+    code_signals:
+      - "N/A - Review of store listing categorization."
+    common_violations:
+      - "Rejection for selecting the 'Health & Fitness' category to boost ranking for a random puzzle game."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.3.5"
+      - "google-promotion-2"
+    notes: ""
+
+  - id: "shared-presubmission-7"
+    title: "Release Notes Detail Actual Changes"
+    summary: "The 'What's New' release notes must describe the actual changes, bug fixes, or new features being introduced. Blank descriptions or copy-pasted generic text for significant updates can cause rejections."
+    check_criteria:
+      - "Do the update release notes accurately reflect what was meaningfully changed to users in the new binary?"
+    code_signals:
+      - "N/A - Review of submitted release notes text."
+    common_violations:
+      - "Rejection for completely rewriting the app's UI and feature set without putting anything except 'Bug fixes and performance improvements' in the release notes."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.3.12"
+      - "google-promotion-2"
+    notes: ""

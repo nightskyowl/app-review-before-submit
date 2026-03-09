@@ -1,0 +1,73 @@
+_meta:
+  platform: "shared"
+  category: "content-rating"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "shared-content"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "shared-content-1"
+    title: "Age Rating Questionnaire Accuracy"
+    summary: "Developers must accurately answer the age rating questionnaires (Apple's age rating system and Google's IARC questionnaire). It is strictly prohibited to misrepresent content to obtain a lower rating."
+    check_criteria:
+      - "Are the age rating questionnaires answered accurately according to the app's actual content?"
+      - "Does the content rating match the presence of mature themes, violence, or user-generated content?"
+    code_signals:
+      - "N/A - Manual review of app content versus declared age ratings in the App Store Connect / Google Play Console."
+    common_violations:
+      - "Rejection for selecting a 4+ or 'Everyone' rating when the app includes a significant amount of realistic violence."
+      - "Failing to disclose casino-style mechanics during the rating process."
+    platform_specific:
+      apple:
+        - "Complete the App Store Age Rating."
+      google:
+        - "Complete the IARC questionnaire in the Play Console."
+    related_rules:
+      - "apple-2.3.6"
+      - "google-promotion-4"
+    notes: ""
+
+  - id: "shared-content-2"
+    title: "Objectionable Content (Violence, Sexual, Hate)"
+    summary: "Apps must not depict gratuitous violence, sexual content/pornography, hate speech, or the encouragement of substance abuse. Apps that violate these standards are subject to immediate removal."
+    check_criteria:
+      - "Is the app free of hate speech, bullying, and targeted harassment?"
+      - "Is the app totally devoid of non-educational/artistic nudity, pornography, or hookup features?"
+      - "Does the app avoid encouraging the use of illegal drugs, excessive alcohol, or dangerous weapons?"
+    code_signals:
+      - "Search for terms like 'nsfw', 'porn', 'gore', or hardcore drug terms in assets and strings."
+      - "Check if reporting tools lack specific categories for hate speech or abuse."
+    common_violations:
+      - "Rejection for an app that allows users to post explicit sexual imagery without an aggressive moderation or filtering system."
+      - "Rejection for a game portraying realistic, unprovoked violence against civilians."
+      - "Rejection for a social networking app primarily acting as an escort or 'sugar dating' platform."
+    platform_specific: {}
+    related_rules:
+      - "apple-1.1.1"
+      - "apple-1.1.2"
+      - "apple-1.1.3"
+      - "apple-1.1.4"
+      - "apple-1.4.3"
+      - "google-restricted-content-2"
+      - "google-restricted-content-3"
+      - "google-restricted-content-4"
+    notes: "Both platforms rigorously police their catalogs for these types of content."
+
+  - id: "shared-content-3"
+    title: "Metadata Age Appropriateness"
+    summary: "Regardless of the app's actual age rating (e.g., 17+ or Mature), the app's store listing metadata (icon, title, screenshots, previews) must be appropriate for all ages (4+ / Everyone)."
+    check_criteria:
+      - "Are all icons, screenshots, and video previews suitable for a general audience?"
+    code_signals:
+      - "N/A - Manual asset check prior to upload."
+    common_violations:
+      - "Rejection for a 17+ zombie game that shows decapitations or excessive blood in the App Store screenshots."
+      - "Rejection for store promotional videos containing profanity or sexual innuendo."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.3.8"
+      - "google-promotion-2"
+    notes: "Even if your app is restricted to adults, the public-facing storefront must remain 'family-friendly'."

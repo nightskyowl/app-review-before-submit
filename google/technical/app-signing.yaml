@@ -1,0 +1,25 @@
+_meta:
+  platform: "google"
+  category: "technical"
+  source_url: "https://developer.android.com/studio/publish/app-signing"
+  section_id: "app-signing"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-signing-1"
+    title: "Play App Signing and AAB Format"
+    summary: "New apps must be published using the Android App Bundle (AAB) format and enrolled in Play App Signing."
+    check_criteria:
+      - "Is the app built as an .aab (Android App Bundle) rather than an .apk for new releases?"
+      - "Is the upload key properly configured for signing the release build?"
+    code_signals:
+      - "Check build.gradle for signingConfigs and ensure release configuration uses a valid keystore."
+      - "Verify CI/CD pipelines use 'bundleRelease' instead of 'assembleRelease'."
+    common_violations:
+      - "You uploaded an APK. You must upload an Android App Bundle (AAB) for new apps."
+      - "The Android App Bundle was not signed with the correct upload key."
+    related_rules:
+      - "apple-signing-1"

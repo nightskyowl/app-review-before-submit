@@ -1,0 +1,84 @@
+_meta:
+  platform: "shared"
+  category: "privacy-checklist"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "shared-privacy"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "shared-privacy-1"
+    title: "Privacy Policy Requirements"
+    summary: "A comprehensive privacy policy is required. It must be accessible both from within the app and via the app store listing, explicitly stating what data is collected, why, and how it's retained or shared."
+    check_criteria:
+      - "Does the app include a clear, accessible privacy policy URL in its metadata and within the app itself?"
+      - "Does the policy accurately represent all data collection methods used by the app?"
+    code_signals:
+      - "Check for 'Privacy Policy' or 'Terms of Service' links in authentication and settings screens."
+      - "Search for URLs ending in '/privacy' or matching terms in configuration files."
+    common_violations:
+      - "Rejection for missing or dead privacy policy URL."
+      - "Rejection for a privacy policy that does not cover a newly added third-party analytics SDK."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+      - "google-privacy-1"
+    notes: "Both platforms mandate strong privacy disclosures before the app is approved."
+
+  - id: "shared-privacy-2"
+    title: "User Consent and Data Disclosure"
+    summary: "Explicit user consent must be obtained before collecting sensitive data. In-app disclosures are required alongside platform permission prompts."
+    check_criteria:
+      - "Does the app provide prominent in-app disclosure before requesting sensitive permissions?"
+      - "Is explicit consent obtained before tracking the user or sharing data externally?"
+    code_signals:
+      - "Search for custom permission rationale dialogs shown before calling system permission requests (e.g., 'requestPermissions')."
+    common_violations:
+      - "Rejection for requesting camera access at app launch without explaining what the camera will be used for."
+      - "Rejection for starting continuous location tracking immediately after login."
+    platform_specific:
+      swift:
+        - "Check 'ATTrackingManager.requestTrackingAuthorization' implementation."
+      kotlin:
+        - "Verify use of custom UI dialogs before runtime permission API calls."
+    related_rules:
+      - "apple-5.1.2"
+      - "google-privacy-1"
+    notes: "Apple requires the ATT prompt for tracking; Google is strict about prominent disclosure for background data."
+
+  - id: "shared-privacy-3"
+    title: "Data Minimization"
+    summary: "Apps should only request access to data that is strictly necessary for the core functionality of the app."
+    check_criteria:
+      - "Are all requested data and permissions directly tied to a necessary feature of the app?"
+    code_signals:
+      - "Compare declared permissions in Info.plist (Apple) and AndroidManifest.xml (Google) against actual app features."
+    common_violations:
+      - "Rejection for a simple flashlight app requesting access to the user's contacts and location."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+      - "google-privacy-1"
+    notes: ""
+
+  - id: "shared-privacy-4"
+    title: "App Tracking / Data Safety Declarations"
+    summary: "Developers must accurately declare what data is collected, how it's used, and if it's shared with third parties using the platform's respective privacy tools."
+    check_criteria:
+      - "Are all third-party SDK data collections accounted for in the app's privacy declarations?"
+      - "Are the App Store Privacy Nutrition Labels / Play Console Data Safety forms fully completed and accurate?"
+    code_signals:
+      - "Search for ad networks, crash reporters, and analytics libraries in build files (Podfile, build.gradle) to ensure they are documented."
+    common_violations:
+      - "Rejection for omitting a marketing SDK in the privacy declaration forms."
+    platform_specific:
+      swift:
+        - "Must complete App Store Privacy Nutrition Labels."
+      kotlin:
+        - "Must complete Google Play Data Safety Section."
+    related_rules:
+      - "apple-5.1.2"
+      - "google-privacy-1"
+    notes: "If your app uses third-party libraries, you are responsible for declaring whatever data those libraries collect."

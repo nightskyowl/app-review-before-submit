@@ -1,0 +1,25 @@
+_meta:
+  platform: "apple"
+  category: "technical"
+  source_url: "https://developer.apple.com/help/app-store-connect/reference/app-information/"
+  section_id: "asc-metadata"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-metadata-1"
+    title: "App Store Connect Required Metadata"
+    summary: "Submissions must include required localized metadata, support URLs, accurate screenshots per device type, and Export Compliance (ECCN)."
+    check_criteria:
+      - "Are screenshots provided for all required device sizes (e.g., 6.5-inch and 5.5-inch for iOS)?"
+      - "Is there a valid Support URL that points to a live website with contact information?"
+      - "Are content rights correctly declared if the app features 3rd-party IP?"
+    code_signals:
+      - "Check fastlane/Deliverfile or fastlane/metadata directory for screenshot presence"
+      - "Look for app_store_connect_support_url configurations in CI/CD scripts"
+    common_violations:
+      - "ITMS-90717: Invalid App Store Icon. The App Store Icon in the asset catalog must be transparent and cannot contain an alpha channel."
+      - "Missing Required Screenshots. The app binary indicates iPad support but no iPad screenshots were uploaded."
+    notes: "If your app uses standard encryption, ensure you have submitted a Year-End Self Classification Report (ECCN)."

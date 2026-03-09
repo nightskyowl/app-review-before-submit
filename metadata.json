@@ -1,0 +1,65 @@
+{
+  "name": "app-review-before-submit",
+  "display_name": "App Review Compliance Check",
+  "description": "AI-native compliance knowledge base and review skill for Apple App Store and Google Play developer policies. Scans app codebases against current review guidelines and generates a compliance report before submission.",
+  "version": "1.0.0",
+  "author": "nightskyowl",
+  "license": "MIT",
+  "repository": "https://github.com/nightskyowl/app-review-before-submit",
+  "keywords": [
+    "app-store",
+    "google-play",
+    "review-guidelines",
+    "compliance",
+    "app-review",
+    "pre-submission",
+    "ios",
+    "android",
+    "flutter",
+    "react-native"
+  ],
+  "platforms": [
+    "apple",
+    "google"
+  ],
+  "skill_file": "SKILL.md",
+  "policy_files": {
+    "apple": [
+      "apple/review-guidelines/1-safety.yaml",
+      "apple/review-guidelines/2-performance.yaml",
+      "apple/review-guidelines/3-business.yaml",
+      "apple/review-guidelines/4-design.yaml",
+      "apple/review-guidelines/5-legal.yaml"
+    ],
+    "google": [
+      "google/play-policy/restricted-content.yaml",
+      "google/play-policy/intellectual-property.yaml",
+      "google/play-policy/privacy-deception-device-abuse.yaml",
+      "google/play-policy/monetization-ads.yaml",
+      "google/play-policy/store-listing-promotion.yaml",
+      "google/play-policy/spam-minimum-functionality.yaml",
+      "google/play-policy/malware-mups.yaml",
+      "google/play-policy/families-policy.yaml",
+      "google/play-policy/sdk-requirements.yaml"
+    ],
+    "shared": [
+      "shared/privacy-checklist.yaml",
+      "shared/payment-rules.yaml",
+      "shared/content-rating.yaml",
+      "shared/account-deletion.yaml",
+      "shared/login-requirements.yaml",
+      "shared/pre-submission-checklist.yaml"
+    ]
+  },
+  "supported_frameworks": [
+    "swift",
+    "kotlin",
+    "flutter",
+    "react_native"
+  ],
+  "min_agent_capabilities": [
+    "file_read",
+    "grep",
+    "web_fetch"
+  ]
+}

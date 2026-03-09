@@ -1,0 +1,25 @@
+_meta:
+  platform: "google"
+  category: "technical"
+  source_url: "https://docs.flutter.dev/deployment/android"
+  section_id: "flutter-android"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-flutter-1"
+    title: "Flutter Android Build Configuration and Plugin Permissions"
+    summary: "Flutter projects must correctly configure compileSdkVersion/targetSdkVersion in android/app/build.gradle and prevent unnecessary permissions from bleeding into the merged manifest via plugins."
+    check_criteria:
+      - "Are the compileSdkVersion and targetSdkVersion properly updated in android/app/build.gradle?"
+      - "Has the merged AndroidManifest.xml been audited to ensure Flutter plugins haven't injected unnecessary or restricted permissions?"
+    code_signals:
+      - "Check android/app/build.gradle for flutter.compileSdkVersion and flutter.targetSdkVersion overrides."
+      - "Review app/src/main/AndroidManifest.xml and generated merged manifest for <uses-permission> tags."
+    common_violations:
+      - "Your Flutter app was rejected because a third-party plugin silently added MANAGE_EXTERNAL_STORAGE permission to your merged manifest."
+    platform_specific:
+      flutter:
+        - "Use tools:node=\"remove\" in your main AndroidManifest.xml to strip unwanted permissions injected by Flutter plugins."

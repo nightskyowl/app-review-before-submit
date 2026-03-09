@@ -1,0 +1,73 @@
+_meta:
+  platform: "shared"
+  category: "login-requirements"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "shared-login"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "shared-login-1"
+    title: "Sign in with Apple Requirement"
+    summary: "If an app exclusively uses a third-party or social login service (like Facebook, Google, Twitter), it must also offer 'Sign in with Apple' as an equivalent, strictly privacy-focused option."
+    check_criteria:
+      - "If the app supports third-party sign-in buttons (Facebook, Google), does it also offer a 'Sign in with Apple' or an equivalently private option?"
+    code_signals:
+      - "Search for 'FBSDKLoginKit', 'GoogleSignIn', or comparable libraries to detect third-party login flows."
+      - "Ensure 'AuthenticationServices' is imported when other third-party login SDKs are used."
+    common_violations:
+      - "Rejection for offering 'Sign in with Facebook' but lacking a native and equivalently promoted 'Sign in with Apple' button."
+    platform_specific: {}
+    related_rules:
+      - "apple-4.8"
+      - "google-privacy-1"
+    notes: "Though originally an Apple rule, providing multiple secure, private authentication methods is heavily encouraged consistently across platforms."
+
+  - id: "shared-login-2"
+    title: "Demo/Test Account for Review"
+    summary: "A functional demo or test account must be provided in the review submission notes if the app requires any form of login or account to fully utilize."
+    check_criteria:
+      - "If the app places its main features behind a login wall, is a fully functional test account set up and active for the review team?"
+      - "Is a bypass mechanism provided if the app uses complex two-factor authentication or hardware SMS verification during the test?"
+    code_signals:
+      - "N/A - Review notes setup check."
+    common_violations:
+      - "Rejection because the provided test credentials triggered an SMS verification code to an inaccessible phone number during review."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.1"
+      - "google-spam-4"
+    notes: "If your app is inherently geo-locked and reviewers are outside the region, you must provide a way for them to bypass the lock."
+
+  - id: "shared-login-3"
+    title: "No Forced Social Login"
+    summary: "Apps should generally not force users to authenticate with a social media account merely to access basic app features. Other mechanisms (like email and password, or anonymous guest accounts) must be supported unless the app's core functionality is fundamentally tied to the social service."
+    check_criteria:
+      - "Can users access the primary feature set of the app without explicitly linking a specific third-party social account?"
+    code_signals:
+      - "Search for exclusively Facebook or Twitter SDK login paths gating the main screen transition."
+    common_violations:
+      - "Rejection for forcing users to share an automatic post on Twitter just to launch a flashlight app."
+      - "Rejection for tying a basic, standalone utility exclusively to a Facebook login without an alternative."
+    platform_specific: {}
+    related_rules:
+      - "apple-4.8"
+      - "google-privacy-1"
+    notes: "Apps where the core experience is the third-party network itself (e.g., a custom Twitter client) are exempt from this strict requirement."
+
+  - id: "shared-login-4"
+    title: "Guest Access and Skipping Login"
+    summary: "Apps should provide a guest or anonymous usage flow up until an account is strictly required to perform a specific action (e.g., making a purchase, saving data across devices)."
+    check_criteria:
+      - "Does the app allow users to browse basic menus and settings without creating an account?"
+    code_signals:
+      - "Check navigation controllers to ensure 'Skip' or 'Continue as Guest' paths exist on custom login screens."
+    common_violations:
+      - "Rejection for making a user fill out a 5-step registration profile before letting them even view a public catalog of physical goods to buy."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+      - "google-spam-4"
+    notes: "Both platforms strongly push for letting users \"kick the tires\" before mandating account creation."

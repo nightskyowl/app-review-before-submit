@@ -1,0 +1,45 @@
+_meta:
+  platform: "apple"
+  category: "technical"
+  source_url: "https://developer.apple.com/documentation/bundleresources/information_property_list"
+  section_id: "info-plist"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-plist-1"
+    title: "Mandatory Privacy Usage Descriptions"
+    summary: "Any hardware or sensitive API access requires a corresponding NS*UsageDescription key in Info.plist."
+    check_criteria:
+      - "Are all accessed hardware features backed by a usage description key?"
+      - "Are the privacy usage descriptions clearly explaining why the app needs access?"
+    code_signals:
+      - "Check ios/Runner/Info.plist for NSCameraUsageDescription key"
+      - "Check ios/Runner/Info.plist for NSLocationWhenInUseUsageDescription key"
+    common_violations:
+      - "ITMS-90683: Missing Purpose String in Info.plist. App's code references one or more APIs that access sensitive user data."
+    notes: "Even if an unused 3rd-party SDK references an API, the UsageDescription string must still be provided."
+
+  - id: "apple-plist-2"
+    title: "Version and Build String Formatting"
+    summary: "Apps must have a correctly formatted valid CFBundleVersion and CFBundleShortVersionString."
+    check_criteria:
+      - "Is CFBundleVersion an incremented integer or a dot-separated string of integers?"
+      - "Is CFBundleShortVersionString a valid semantic versioning string?"
+    code_signals:
+      - "Check ios/Runner/Info.plist for CFBundleVersion"
+      - "Check ios/Runner/Info.plist for CFBundleShortVersionString"
+    common_violations:
+      - "ITMS-90062: This bundle is invalid. The value for key CFBundleShortVersionString in the Info.plist file must contain a higher version than that of the previously approved version."
+
+  - id: "apple-plist-3"
+    title: "Encryption Exemption Declaration"
+    summary: "If the app does not use custom encryption, it should declare the exemption to skip the export compliance prompt in App Store Connect."
+    check_criteria:
+      - "Does the Info.plist contain ITSAppUsesNonExemptEncryption set to false if appropriate?"
+    code_signals:
+      - "Check Info.plist for ITSAppUsesNonExemptEncryption"
+    common_violations:
+      - "Missing Export Compliance Information. App required manual export configuration on App Store Connect."

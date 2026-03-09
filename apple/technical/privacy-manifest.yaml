@@ -1,0 +1,28 @@
+_meta:
+  platform: "apple"
+  category: "technical"
+  source_url: "https://developer.apple.com/documentation/bundleresources/privacy_manifest_files"
+  section_id: "privacy-manifest"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-privacy-manifest-1"
+    title: "Privacy Manifest and Required Reasons APIs"
+    summary: "Apps and third-party SDKs must declare their data collection practices and usage of Required Reasons APIs in a PrivacyInfo.xcprivacy file."
+    check_criteria:
+      - "Does the app contain a PrivacyInfo.xcprivacy file?"
+      - "Does the manifest properly declare all NSPrivacyAccessedAPITypes mapped to valid reasons?"
+      - "Does the manifest declare NSPrivacyCollectedDataTypes accurately?"
+      - "Are any tracking domains listed under NSPrivacyTrackingDomains?"
+    code_signals:
+      - "Look for PrivacyInfo.xcprivacy in the ios/ or project directory"
+      - "Grep for NSPrivacyAccessedAPITypes in PrivacyInfo.xcprivacy"
+      - "Check for required reasons API categories like NSPrivacyAccessedAPICategoryUserDefaults"
+    common_violations:
+      - "ITMS-91053: Missing API declaration. The app uses an API that requires a declared reason in the privacy manifest."
+      - "ITMS-91056: Invalid tracking domains. Expected tracking domains not registered in privacy manifest."
+    related_rules:
+      - "google-data-safety-1"

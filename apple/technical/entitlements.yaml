@@ -1,0 +1,25 @@
+_meta:
+  platform: "apple"
+  category: "technical"
+  source_url: "https://developer.apple.com/documentation/bundleresources/entitlements"
+  section_id: "entitlements"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-entitlements-1"
+    title: "Required Entitlements Match Capabilities"
+    summary: "The app must only include entitlements for features it actively uses, and must include all entitlements required for features it does use."
+    check_criteria:
+      - "Does the .entitlements file match the capabilities declared in App Store Connect?"
+      - "Are there any restricted entitlements (like HealthKit or CarPlay) without approved use cases?"
+    code_signals:
+      - "Search for .entitlements files in the ios/ directory"
+      - "Look for 'aps-environment' for push notifications"
+      - "Look for 'com.apple.developer.healthkit' if HealthKit is used"
+    common_violations:
+      - "ITMS-90046: Invalid Keyfile. The app's Info.plist contains invalid keys associated with entitlements."
+      - "ITMS-90074: Missing Push Notification Entitlement. App appears to register for push notifications but lacks aps-environment."
+    notes: "Some entitlements require requesting permission directly from Apple via a form before they can be used."

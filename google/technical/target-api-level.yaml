@@ -1,0 +1,23 @@
+_meta:
+  platform: "google"
+  category: "technical"
+  source_url: "https://developer.android.com/google/play/requirements/target-sdk"
+  section_id: "target-api"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-api-1"
+    title: "Target API Level Requirements"
+    summary: "New apps and app updates must target an API level within one year of the latest major Android version release."
+    check_criteria:
+      - "Is the targetSdkVersion set to the currently required API level (e.g., 34 or higher for new apps)?"
+      - "Are there any deprecated APIs used that have been removed in the required targetSdkVersion?"
+    code_signals:
+      - "Search build.gradle for targetSdkVersion — must be >= 34 for new apps"
+      - "Check AndroidManifest.xml for uses-sdk android:targetSdkVersion"
+    common_violations:
+      - "Your app currently targets API level 33 and must target at least API level 34 to ensure it is built on the latest APIs."
+    notes: "Apps that do not update their target API level will not be discoverable by new users whose devices run Android OS versions newer than the app's target API level."

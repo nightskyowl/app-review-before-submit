@@ -1,0 +1,27 @@
+_meta:
+  platform: "google"
+  category: "technical"
+  source_url: "https://developer.android.com/guide/topics/manifest/manifest-intro"
+  section_id: "android-manifest"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-manifest-1"
+    title: "Manifest Declarations and Exported Components"
+    summary: "AndroidManifest.xml must explicitly declare all required permissions, features, foreground service types, and the exported state of components with intent filters."
+    check_criteria:
+      - "Is android:exported explicitly set to true or false on every activity, service, or receiver that has an intent-filter?"
+      - "Are foreground service types properly declared for Android 14+ (API 34+)?"
+      - "Are package visibility requirements correctly declared in a <queries> element?"
+    code_signals:
+      - "Verify AndroidManifest.xml has android:exported set on all activities with intent-filters"
+      - "Check AndroidManifest.xml for foregroundServiceType when declaring a Service."
+      - "Check AndroidManifest.xml for <uses-feature> hardware requirements."
+    common_violations:
+      - "Your app targets Android 12 or higher and uses intent filters but does not explicitly declare android:exported."
+      - "Service failed to declare foreground service type in AndroidManifest.xml for Android 14+."
+    related_rules:
+      - "apple-entitlements-1"

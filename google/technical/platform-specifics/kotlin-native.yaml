@@ -1,0 +1,25 @@
+_meta:
+  platform: "google"
+  category: "technical"
+  source_url: "https://developer.android.com/kotlin"
+  section_id: "kotlin-native"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-kotlin-1"
+    title: "Kotlin and Jetpack Compose Configuration"
+    summary: "Kotlin-native projects using Jetpack Compose must maintain compatible Gradle/AGP versions and configure ProGuard/R8 appropriately for compliance."
+    check_criteria:
+      - "Is the Android Gradle Plugin (AGP) version compatible with the current required target API requirements?"
+      - "Are ProGuard/R8 rules preserving necessary compliance-relevant code (like Data Safety signals or specific intent handlers)?"
+    code_signals:
+      - "Check build.gradle or build.gradle.kts for Android Gradle Plugin (AGP) versions."
+      - "Review proguard-rules.pro for rules that might aggressively strip required components or metadata."
+    common_violations:
+      - "App crashes on launch due to missing classes stripped by aggressive ProGuard rules on a compliance-mandated library."
+    platform_specific:
+      kotlin:
+        - "Ensure Jetpack Compose compiler versions match your Kotlin version to avoid build failures targeting new API levels."

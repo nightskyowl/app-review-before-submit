@@ -1,0 +1,44 @@
+_meta:
+  platform: "shared"
+  category: "account-deletion"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "shared-account"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "shared-account-1"
+    title: "In-App Account Deletion Requirement"
+    summary: "If an app allows a user to create an account, it must also provide a fully functional, easy-to-find option within the app to delete that account entirely."
+    check_criteria:
+      - "Does the app contain an account deletion mechanism if it supports account creation?"
+      - "Is the account deletion option easy to find (e.g., within the main Account or Settings page)?"
+    code_signals:
+      - "Search for 'deleteAccount', 'removeUser', or 'deactivateAccount' string constants in profile/settings UI code."
+      - "Verify the routing/navigation flows inside app settings to ensure the deletion option is fewer than three taps away."
+    common_violations:
+      - "Rejection for making the 'Delete Account' button actually just log the user out."
+      - "Rejection for only offering a link to email customer support with the subject 'Please delete my account', rather than an automated flow."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+      - "google-privacy-1"
+    notes: "This requirement was heavily enforced by Apple starting in 2022 and followed tightly by Google shortly after."
+
+  - id: "shared-account-2"
+    title: "Associated Data and Timeline"
+    summary: "The account deletion mechanism must actually delete the account and all associated personal data from the developer's servers (subject to legally required retention policies) in a timely manner."
+    check_criteria:
+      - "Does the deletion process clear personal data from the backend databases?"
+      - "If data is retained for legal or regulatory reasons, is this explicitly communicated to the user upon request?"
+    code_signals:
+      - "Check API payloads to ensure that hitting the 'delete account' endpoint issues a hard delete (or compliant soft delete) rather than simply setting an 'is_active = false' flag without scrub jobs."
+    common_violations:
+      - "Rejection for taking more than standard local legal timelines (e.g., typically 30 days) to fully purge user information from active databases."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+      - "google-privacy-1"
+    notes: "Developers should be prepared to explain their exact data purging process if questioned by review teams."

@@ -1,0 +1,11 @@
+apple:
+  review_guidelines: "https://developer.apple.com/app-store/review/guidelines/"
+  developer_documentation: "https://developer.apple.com/documentation/"
+  app_store_connect: "https://developer.apple.com/app-store-connect/"
+  human_interface_guidelines: "https://developer.apple.com/design/human-interface-guidelines/"
+
+google:
+  play_developer_policy: "https://play.google/developer-content-policy/"
+  android_developer_docs: "https://developer.android.com/docs"
+  play_console_help: "https://support.google.com/googleplay/android-developer/"
+  google_play_sdk_index: "https://developer.android.com/distribute/sdk-index"

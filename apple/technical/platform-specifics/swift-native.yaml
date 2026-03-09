@@ -1,0 +1,27 @@
+_meta:
+  platform: "apple"
+  category: "technical"
+  source_url: "https://developer.apple.com/documentation/swiftui/"
+  section_id: "swift-native"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-swift-1"
+    title: "SwiftUI, SPM, and App Clips"
+    summary: "Native Swift apps must ensure proper SPM dependency resolution, correct SwiftUI lifecycle configuration, and App Clip payload size limits."
+    check_criteria:
+      - "Is the app built with the required minimum Xcode version according to current App Store policies?"
+      - "If the app includes an App Clip, is the uncompressed binary size within the current maximum limit (e.g., 50MB)?"
+    code_signals:
+      - "Check Package.resolved for Swift Package Manager dependencies."
+      - "Verify App Clip targets in the .xcodeproj."
+    common_violations:
+      - "ITMS-90863: Invalid App Clip Payload Size. The App Clip payload exceeds the maximum uncompressed size."
+      - "ITMS-90725: SDK Version Issue. App built with unsupported older Xcode version."
+    platform_specific:
+      swift:
+        - "Swift Package Manager packages without PrivacyInfo manifests will trigger missing API usage declarations."
+        - "SwiftUI app lifecycle updates must handle UIScene background modes accurately without retaining unnecessary background tasks."

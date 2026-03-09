@@ -1,0 +1,26 @@
+_meta:
+  platform: "apple"
+  category: "technical"
+  source_url: "https://docs.flutter.dev/deployment/ios"
+  section_id: "flutter-ios"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-flutter-1"
+    title: "Flutter iOS Configuration and Plugins Permissions"
+    summary: "Flutter builds for iOS must properly configure Podfile minimum deployment targets and declare plugin permissions in Info.plist."
+    check_criteria:
+      - "Is the global platform :ios target in ios/Podfile sufficient to pass Apple minimum requirements?"
+      - "Do all permission-requiring Flutter plugins have their corresponding NS*UsageDescription strings in ios/Runner/Info.plist?"
+    code_signals:
+      - "Check ios/Podfile for 'platform :ios, '"
+      - "Look in pubspec.yaml for plugins like permission_handler, camera, location and verify ios/Runner/Info.plist contains accurate descriptions"
+    common_violations:
+      - "Flutter plugin permission mismatch: Missing Info.plist string for a plugin included in pubspec.yaml but not explicitly customized."
+      - "ITMS-90725: SDK Version Issue. This app was built with the iOS 15 SDK. All iOS apps submitted to the App Store must be built with the iOS 16 SDK or later."
+    platform_specific:
+      flutter:
+        - "The permission_handler flutter package requires preprocessor macros enabled in ios/Podfile to avoid ITMS privacy rejections for unused APIs."

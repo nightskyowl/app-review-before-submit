@@ -1,0 +1,34 @@
+# Tracks when each policy document was last verified against its official source.
+# Updated automatically when a document's last_verified field changes.
+
+apple:
+  review-guidelines:
+    1-safety: null
+    2-performance: null
+    3-business: null
+    4-design: null
+    5-legal: null
+  technical: {}
+  common-rejections: null
+
+google:
+  play-policy:
+    restricted-content: null
+    intellectual-property: null
+    privacy-deception-device-abuse: null
+    monetization-ads: null
+    store-listing-promotion: null
+    spam-minimum-functionality: null
+    malware-mups: null
+    families-policy: null
+    sdk-requirements: null
+  technical: {}
+  common-rejections: null
+
+shared:
+  privacy-checklist: null
+  payment-rules: null
+  content-rating: null
+  account-deletion: null
+  login-requirements: null
+  pre-submission-checklist: null

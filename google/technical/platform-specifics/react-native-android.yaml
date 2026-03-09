@@ -1,0 +1,25 @@
+_meta:
+  platform: "google"
+  category: "technical"
+  source_url: "https://reactnative.dev/docs/publishing-to-google-play"
+  section_id: "rn-android"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-rn-1"
+    title: "React Native Android Build and Architecture"
+    summary: "React Native Android projects require proper gradle configuration and attention to native module manifest requirements, particularly with new architectural changes."
+    check_criteria:
+      - "Is android/app/build.gradle correctly configured to build Android App Bundles (AAB)?"
+      - "Are all native module manifest entries complying with current API level requirements (e.g., android:exported)?"
+    code_signals:
+      - "Check android/app/build.gradle for targetSdkVersion overrides."
+      - "Search node_modules native code for android:exported omissions that may break the build."
+    common_violations:
+      - "Your React Native app failed to build or was rejected because a native module dependency didn't update to the android:exported=true|false standard."
+    platform_specific:
+      react_native:
+        - "React Native's new architecture (Fabric/TurboModules) may introduce new native module structures requiring renewed manifest audits."

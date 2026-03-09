@@ -1,0 +1,27 @@
+_meta:
+  platform: "google"
+  category: "technical"
+  source_url: "https://support.google.com/googleplay/android-developer/answer/9888170"
+  section_id: "permissions"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-permissions-1"
+    title: "Restricted Permission Declarations"
+    summary: "High-risk permissions like QUERY_ALL_PACKAGES, MANAGE_EXTERNAL_STORAGE, and SMS/Call Log access require specific justification and approval in the Play Console."
+    check_criteria:
+      - "Does the app declare QUERY_ALL_PACKAGES only if the core functionality requires broad visibility into installed apps?"
+      - "Does the app request SMS/Call Log permissions only if it is the default handler?"
+      - "Are runtime permissions like POST_NOTIFICATIONS (API 33+) properly requested?"
+    code_signals:
+      - "Grep AndroidManifest.xml for 'QUERY_ALL_PACKAGES'"
+      - "Grep AndroidManifest.xml for 'MANAGE_EXTERNAL_STORAGE'"
+      - "Grep AndroidManifest.xml for 'POST_NOTIFICATIONS'"
+    common_violations:
+      - "App uses QUERY_ALL_PACKAGES permission without meeting the permitted uses allowed by policy."
+      - "Missing Permission Declaration Form in Play Console for MANAGE_EXTERNAL_STORAGE."
+    related_rules:
+      - "apple-entitlements-1"

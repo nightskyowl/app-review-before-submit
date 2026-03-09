@@ -1,0 +1,84 @@
+_meta:
+  platform: "shared"
+  category: "payment-rules"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "shared-payment"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "shared-payment-1"
+    title: "Platform Billing for Digital Goods"
+    summary: "Any unlocking of digital content, features, or subscriptions must use the native platform billing system (Apple In-App Purchase or Google Play Billing)."
+    check_criteria:
+      - "Does the app exclusively use the platform's native billing system to sell digital goods or services?"
+    code_signals:
+      - "Search for 'StoreKit' imports in iOS codebases and 'com.android.billingclient' in Android codebases."
+      - "Search for third-party payment gateways (Stripe, PayPal) to confirm they aren't selling digital access."
+    common_violations:
+      - "Rejection for selling a 'Pro' features unlock using a Stripe checkout form."
+      - "Rejection for linking to an external website to buy a digital subscription."
+    platform_specific:
+      react_native:
+        - "Check 'react-native-iap' or similar libraries for proper configuration and use."
+      swift:
+        - "Verify use of 'SKPaymentQueue' and 'StoreKit'."
+      kotlin:
+        - "Verify use of 'BillingClient'."
+    related_rules:
+      - "apple-3.1.1"
+      - "google-monetization-1"
+    notes: "This is one of the most strictly enforced rules on both platforms."
+
+  - id: "shared-payment-2"
+    title: "Exceptions (Physical Goods & External Services)"
+    summary: "Purchases for physical goods (clothing, food delivery) or services consumed outside the app must use third-party payment methods, not native billing."
+    check_criteria:
+      - "Are physical goods or real-world services purchased using a compliant third-party payment gateway?"
+    code_signals:
+      - "Search for integration of Apple Pay ('PKPaymentRequest') or Google Pay API for physical goods."
+      - "Search for Stripe/Braintree/PayPal standard integrations in physical ecommerce apps."
+    common_violations:
+      - "Rejection for attempting to use Apple IAP to process payment for a physical pizza delivery."
+    platform_specific: {}
+    related_rules:
+      - "apple-3.1.3"
+      - "google-monetization-1"
+    notes: "Native platform billing takes a cut and is explicitly not for physical merchandise."
+
+  - id: "shared-payment-3"
+    title: "Subscription Requirements"
+    summary: "Auto-renewing subscriptions must offer ongoing value. Pricing, renewal terms, and cancellation instructions must be transparent and clearly displayed."
+    check_criteria:
+      - "Does the subscription provide ongoing value over time (e.g., streaming content, recurring updates)?"
+      - "Are the terms, prices, and billing frequencies prominently shown before the transaction is initiated?"
+    code_signals:
+      - "Review subscription paywall UI files for hardcoded prices or variables that dynamically display the true cost and renewal terms."
+    common_violations:
+      - "Rejection for a subscription offering a single, one-time unlock disguised as a recurring charge."
+      - "Rejection for hiding the actual annual cost in tiny text while promoting the \"monthly equivalent\" in huge font."
+    platform_specific: {}
+    related_rules:
+      - "apple-3.1.2"
+      - "google-monetization-2"
+    notes: "Both platforms rigorously combat deceptive \"dark patterns\" around subscription signups."
+
+  - id: "shared-payment-4"
+    title: "Cryptocurrency Rules"
+    summary: "Cryptocurrency apps can act as wallets if submitted by an organization. Apps acting as exchanges must have correct regional licenses. On-device mining is prohibited."
+    check_criteria:
+      - "Is cryptocurrency mining explicitly not happening on the device itself?"
+      - "If the app is a crypto wallet or exchange, is it submitted by a verified organization with necessary licenses?"
+    code_signals:
+      - "Search for intensive crypto-hashing algorithms acting locally to mine coins."
+      - "Check for integrations with authorized exchange APIs to ensure they are compliant."
+    common_violations:
+      - "Rejection for embedding a background process to mine crypto that drains device battery."
+      - "Rejection for an individual developer account submitting a secure cryptocurrency wallet."
+    platform_specific: {}
+    related_rules:
+      - "apple-3.1.5"
+      - "google-monetization-1"
+    notes: "Google lists similar restrictions regarding on-device mining and requires proper licensing for financial instruments under their financial services policies."
