@@ -1,0 +1,132 @@
+_meta:
+  platform: "google"
+  category: "restricted-content"
+  source_url: "https://support.google.com/googleplay/android-developer/topic/9877466"
+  section_id: "restricted-content"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-restricted-content-1"
+    title: "Child Endangerment"
+    summary: >
+      Apps must not contain, promote, or facilitate the exploitation or abuse of children,
+      including Child Sexual Abuse Material (CSAM). Social and Dating apps must publish 
+      standards prohibiting CSAM, provide in-app user feedback loops, and comply with safety laws.
+    check_criteria:
+      - "Does the app's terms of service explicitly prohibit Child Sexual Abuse and Exploitation?"
+      - "Does the app provide an in-app mechanism for users to submit feedback or concerns?"
+      - "Does the app contain or promote content that sexualizes minors?"
+    code_signals:
+      - "Search for 'terms_of_service' or 'privacy_policy' links that mention child safety or age restrictions."
+      - "Look for 'Report Abuse' or 'Submit Feedback' UI components or API calls for reporting users."
+    common_violations:
+      - "App lacks an in-app reporting feature to flag abusive users in a social experience."
+      - "Social app doesn't have terms of service explicitly prohibiting CSAM."
+    platform_specific:
+      android:
+        - "Check if intent to send feedback or report abuse is properly handled via `Intent.ACTION_SENDTO` or an internal API call."
+    related_rules:
+      - "apple-1.3"
+    notes: "If an app targets children but contains adult themes, it will be immediately removed or suspended."
+
+  - id: "google-restricted-content-2"
+    title: "Sexual Content and Profanity"
+    summary: >
+      Apps containing or promoting sexual content, pornography, or sexually predatory behavior are prohibited. 
+      This includes apps facilitating compensated dating or objectifying people.
+    check_criteria:
+      - "Does the app contain nudity without a primary educational, documentary, scientific, or artistic purpose?"
+      - "Does the app promote sex-related entertainment, escort services, or compensated dating ('sugar dating')?"
+    code_signals:
+      - "Search for explicit text strings or adult/sexual keywords in strings.xml."
+      - "Look for 'NSFW' content warning flags in the application's configuration."
+    common_violations:
+      - "Dating apps focused explicitly on 'sugar dating' or compensated arrangements."
+      - "Apps featuring 'x-ray scanner' pranks that simulate seeing through clothing."
+    related_rules:
+      - "apple-1.1.1"
+    notes: "Incidental catalog apps distributing books/videos have specific exemptions if adult titles constitute a minor fraction and are non-promoted."
+
+  - id: "google-restricted-content-3"
+    title: "Hate Speech"
+    summary: >
+      Apps cannot promote violence or incite hatred against protected groups based on race, religion, sexual orientation, gender identity, etc.
+    check_criteria:
+      - "Does the app contain hate speech, slurs, or stereotypes about protected groups?"
+      - "Does the app promote hate symbols (e.g., flags or insignias of hate groups)?"
+    code_signals:
+      - "Check content filters for known slurs and hate speech patterns."
+    common_violations:
+      - "Social apps failing to moderate and explicitly define hate speech in community guidelines."
+    related_rules:
+      - "apple-1.1.2"
+    notes: "Educational, documentary, scientific, or artistic (EDSA) content related to Nazis may be blocked depending on local laws."
+
+  - id: "google-restricted-content-4"
+    title: "Violence, Violent Extremism, and Dangerous Products"
+    summary: >
+      Apps must not depict gratuitous violence, encourage self-harm, or facilitate the sale of explosives, firearms, and ammunition.
+    check_criteria:
+      - "Does the app contain graphic depictions of realistic violence or threats?"
+      - "Does the app provide instructions on manufacturing weapons or explosives?"
+      - "Does the app facilitate the sale of firearms or their restricted accessories?"
+    code_signals:
+      - "Check shopping cart and checkout integrations (e.g., `BillingClient`) to see if firearms or restricted goods are purchasable."
+    common_violations:
+      - "Apps instructing on how to assemble or 3D-print firearm parts."
+      - "Games describing real-looking suicides or self-harm without context."
+    related_rules:
+      - "apple-1.1.3"
+    notes: "Fictional violence in the context of cartoons, games, or hunting is generally allowed."
+
+  - id: "google-restricted-content-5"
+    title: "User Generated Content (UGC)"
+    summary: >
+      Apps featuring UGC must have robust moderation, terms of use prohibiting objectionable content, 
+      and in-app systems for reporting and blocking users/content.
+    check_criteria:
+      - "Does the app require users to accept a user policy before creating or uploading UGC?"
+      - "Does the app provide an in-app mechanism for reporting objectionable UGC?"
+      - "Does the app provide an in-app mechanism for blocking abusive users?"
+    code_signals:
+      - "Look for 'Report User' and 'Block User' logic (e.g., `blockUser()`, `reportContent()`)."
+      - "Check for 'Terms of Service' acceptance checkpoints before letting the user upload content."
+    common_violations:
+      - "Social networking or dating apps with direct messaging but no block user feature."
+      - "Users can post publicly but there is no report button attached to posts."
+    related_rules:
+      - "apple-1.2"
+    notes: "Different UGC experiences require varying moderation efforts depending on their reach."
+
+  - id: "google-restricted-content-6"
+    title: "AI-Generated Content"
+    summary: >
+      Apps generating content via AI must comply with all policies and include in-app features to flag offensive AI content.
+    check_criteria:
+      - "If the app features Generative AI, does it include an in-app user reporting or flagging feature specific to the AI output?"
+      - "Does the app implement safeguards to prevent generating restricted content (e.g., CSAM, hate speech)?"
+    code_signals:
+      - "Identify LLM or AI generation APIs (e.g., `GenerativeModel`, OpenAI API integrations) and verify if a 'thumbs down' or 'report' button exists for outputs."
+    common_violations:
+      - "AI chatbot app has no way for a user to flag a toxic or sexually explicit generated response."
+    related_rules:
+      - "apple-1.2"
+    notes: "Reporting must be possible without exiting the app."
+
+  - id: "google-restricted-content-7"
+    title: "Age-Restricted Content and Functionality"
+    summary: >
+      Apps facilitating gambling or matchmaking/dating must use Play Console functionalities to block minors.
+    check_criteria:
+      - "If the app offers dating or real money gambling, is it properly flagged as age-restricted?"
+    code_signals:
+      - "Check age-gate implementation (e.g., DatePicker dialogs for age verification)."
+      - "Verify AndroidManifest for `android:minSdkVersion` and restricted components targeting adults only."
+    common_violations:
+      - "Dating app failed to use age-restriction flags in the Play Console."
+    related_rules:
+      - "apple-1.3"
+    notes: "Requires configuring specific constraints in the Play Console."

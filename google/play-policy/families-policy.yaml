@@ -1,0 +1,69 @@
+_meta:
+  platform: "google"
+  category: "families-policy"
+  source_url: "https://support.google.com/googleplay/android-developer/answer/9893335"
+  section_id: "families-policy"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-families-1"
+    title: "Data Practices, Content, and APIs"
+    summary: >
+      Apps targeting children must not collect precise location, device phone numbers, or hardware identifiers 
+      (MAC, IMEI, AAID). All third-party SDKs must be approved for child-directed services. Apps must comply 
+      with COPPA and GDPR.
+    check_criteria:
+      - "Does the app strictly avoid requesting precise location (`ACCESS_FINE_LOCATION`) if targeting children?"
+      - "Are all included third-party SDKs officially approved for child-directed services (e.g., no generic analytics SDKs capturing AAID)?"
+    code_signals:
+      - "Search for `ACCESS_FINE_LOCATION` or `READ_PHONE_STATE` permissions in the `AndroidManifest.xml` of kids' apps."
+      - "Verify the absence of the `AD_ID` permission if targeting API 33+."
+    common_violations:
+      - "Rejection for silently transmitting the device's MAC address to a third-party crash reporting SDK."
+      - "An app targeting kids that requests the user's phone number upon account creation."
+    platform_specific: {}
+    related_rules:
+      - "apple-1.3"
+      - "apple-5.1.4"
+    notes: "Apps targeting mixed audiences must implement a neutral age screen before initializing any non-child-approved SDKs."
+
+  - id: "google-families-2"
+    title: "Monetization and Ads"
+    summary: >
+      Ads shown to children must exclusively use Google Play Families Self-Certified Ads SDKs. No 
+      interest-based tracking or remarketing is allowed. Ads must not be disruptive (must be closeable 
+      after 5 seconds) and cannot show immediately upon app launch.
+    check_criteria:
+      - "Are all ad networks integrated into the app exclusively listed on the Families Self-Certified Ads SDK program?"
+      - "Are video and interstitial ads strictly skippable after 5 seconds with a clear dismiss button?"
+    code_signals:
+      - "Review `build.gradle` for ad SDK dependencies ensuring they only match Google's approved list for Families."
+      - "Check ad initialization configs to guarantee behavioral targeting flags are explicitly disabled."
+    common_violations:
+      - "Rejection for using a standard ad network SDK instead of a Families-certified version."
+      - "Showing an unskippable 15-second ad in a kids' game (limit is 5 seconds for child-directed apps)."
+    platform_specific: {}
+    related_rules:
+      - "apple-1.3"
+    notes: "Offerwalls and multiple banner ads on a single screen are strictly prohibited for children."
+
+  - id: "google-families-3"
+    title: "Social Features and AR"
+    summary: >
+      Social apps must require adult action before children can share personal info. Augmented Reality 
+      (AR) features must display a parental supervision and physical hazard safety warning upon launch.
+    check_criteria:
+      - "Does the app require an adult verification mechanism (like a PIN or email verification) before allowing children to exchange personal info?"
+      - "If the app uses AR features, does it clearly display a safety warning about physical hazards at launch?"
+    code_signals:
+      - "Search for usage of `ARCore` (`ArActivity`, `ArFragment`) ensuring a startup dialog triggers before camera tracking begins."
+    common_violations:
+      - "Rejection for a kids' drawing app that allows them to freely share their name and photo to a global feed without parental gates."
+      - "Launching directly into an AR camera view without a safety prompt regarding surroundings."
+    platform_specific: {}
+    related_rules:
+      - "apple-1.3"
+    notes: "Social apps where the main focus is chatting with strangers (e.g., dating, chat roulette) cannot target children at all."

@@ -1,0 +1,65 @@
+_meta:
+  platform: "google"
+  category: "sdk-requirements"
+  source_url: "https://support.google.com/googleplay/android-developer/answer/11174622" # Dedicated SDK Requirements page
+  section_id: "sdk-requirements"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-sdk-1"
+    title: "Developer Responsibility & User Data"
+    summary: >
+      Developers are exclusively responsible for all third-party code (SDKs) used in their apps. 
+      Data collected by an SDK is treated as data collected directly by the developer. SDK providers 
+      are prohibited from selling personal and sensitive user data collected from your app.
+    check_criteria:
+      - "Are all included third-party SDKs verified to not sell user data to outside brokers for monetary consideration?"
+      - "Does the app's privacy policy accurately reflect data collection occurring entirely via background SDKs?"
+    code_signals:
+      - "N/A - Review of included third-party libraries (`build.gradle` dependencies) against known data brokers."
+    common_violations:
+      - "Rejection for including a 'monetization SDK' that silently hoovers up installed app inventory and user location to sell to advertisers."
+      - "Failing to declare an analytics SDK's data collection in the Google Play Data Safety form."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+      - "apple-5.1.2"
+    notes: "If an SDK violates Play Policy, your app will be removed, regardless of whether you wrote the code."
+
+  - id: "google-sdk-2"
+    title: "SDK Permissions and APIs"
+    summary: >
+      SDKs may only request permissions and APIs that access sensitive information if they are strictly 
+      essential for implementing current features or services promoted in the app's Play listing.
+    check_criteria:
+      - "Do included SDKs only use Android runtime permissions that directly relate to the app's core functionality?"
+    code_signals:
+      - "Examine the Merged Manifest to identify unexpected permissions injected by third-party SDKs (e.g., `READ_SMS` added by an analytics tool)."
+    common_violations:
+      - "Rejection for an image-loading SDK secretly adding the `ACCESS_FINE_LOCATION` permission into the app's manifest."
+      - "A crash reporter SDK attempting to read the user's phonebook/contacts."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+    notes: "Developers must audit the merged manifest artifacts before upload to ensure SDKs haven't requested unauthorized APIs."
+
+  - id: "google-sdk-3"
+    title: "Malware and Obsolete Code"
+    summary: >
+      Developers must promptly remove or update any third-party code or SDKs if the provider is known 
+      to distribute malicious software, or if the SDK version falls out of compliance with updated Play policies.
+    check_criteria:
+      - "Are all SDK versions kept up to date and verified against the Google Play SDK Index for compliance issues?"
+    code_signals:
+      - "Check `build.gradle` and `libs/` for deprecated SDK versions explicitly flagged by Google Play Console warnings."
+    common_violations:
+      - "Rejection for continuing to use a 4-year-old version of an ad SDK known to contain an arbitrary code execution vulnerability."
+      - "Using an SDK that dynamically downloads `.dex` files from non-Google servers."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.5.3"
+      - "apple-2.5.2"
+    notes: "Google Play Console provides SDK warnings; ignoring these will eventually lead to blocked updates or app suspension."

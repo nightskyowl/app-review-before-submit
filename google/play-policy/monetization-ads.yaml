@@ -1,0 +1,102 @@
+_meta:
+  platform: "google"
+  category: "monetization-ads"
+  source_url: "https://support.google.com/googleplay/android-developer/topic/9857752"
+  section_id: "monetization-ads"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-monetization-1"
+    title: "Google Play Payment System"
+    summary: >
+      Apps charging for in-app features, subscriptions, or digital goods must use Google Play's 
+      billing system. Exceptions apply for physical goods, physical services, peer-to-peer payments, 
+      or licensed gambling.
+    check_criteria:
+      - "Does the app use Google Play's billing system (`BillingClient`) for all digital subscriptions and virtual goods?"
+      - "If the app uses a third-party payment gateway, is it strictly for physical goods or exempt services?"
+    code_signals:
+      - "Search for third-party SDKs like Stripe or Braintree attempting to process digital content unlocks instead of `com.android.billingclient`."
+      - "Identify WebView checkouts avoiding native billing for virtual currencies."
+    common_violations:
+      - "Rejection for selling a \"Premium Ad-Free Unlock\" via a Stripe credit card form."
+      - "Using Google Play Billing to charge for food delivery (which must use third-party processors)."
+    platform_specific: {}
+    related_rules:
+      - "apple-3.1.1"
+      - "apple-3.1.3"
+    notes: "Physical goods/services and credit card bill remittances must not use Play Billing."
+
+  - id: "google-monetization-2"
+    title: "Subscriptions"
+    summary: >
+      Subscriptions must provide sustained or recurring value and clearly disclose terms, cost, 
+      billing frequency, and auto-renewal. One-time benefits cannot be disguised as subscriptions.
+    check_criteria:
+      - "Are subscription terms and pricing fully localized and prominently displayed before the user subscribes?"
+      - "Does the subscription provide ongoing value rather than a single lump sum of currency?"
+    code_signals:
+      - "Search for 'Subscribe' or 'Premium' UI layouts to ensure cost and renewal terms are hardcoded or dynamically fetched prominently."
+    common_violations:
+      - "Rejection for offering an auto-renewing $5/month subscription that only gives a one-time 1,000 gem bonus on day one."
+      - "Annual subscriptions prioritizing the 'monthly cost breakdown' in massive text while hiding the actual annual charge in tiny text."
+    platform_specific: {}
+    related_rules:
+      - "apple-3.1.2"
+    notes: "Users must not be subjected to multiple screens of manipulative purchase flows (dark patterns)."
+
+  - id: "google-monetization-3"
+    title: "Deceptive Ads"
+    summary: >
+      Ads must not mimic system notifications, OS warnings, or the app's native user interface 
+      in a way that tricks users into clicking.
+    check_criteria:
+      - "Are advertisements clearly distinguishable from the device's system interface and the app's native UI?"
+    code_signals:
+      - "N/A - Manual UI review of native ad implementations to ensure they include 'Ad' or 'Sponsored' badges."
+    common_violations:
+      - "Rejection for an ad designed to look exactly like an Android system storage warning ('Your device is infected!')."
+      - "Ad disguised as a native navigation tab or a 'Help' button within the app."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.5.18"
+    notes: "It must be immediately clear to the user which app is serving the ad."
+
+  - id: "google-monetization-4"
+    title: "Disruptive Ads"
+    summary: >
+      Ads must only appear within the app serving them, and must not interfere with normal device usage. 
+      Interstitials must be dismissible and cannot pop up outside the app (e.g., on the homescreen).
+    check_criteria:
+      - "Does the app strictly prevent ads from appearing outside the app (e.g., when the user has exited to the homescreen)?"
+      - "Do in-app ads avoid falsifying or hiding the close/dismiss button?"
+    code_signals:
+      - "Search for `SYSTEM_ALERT_WINDOW` or background service logic triggering `startActivity` for ad SDKs when the app is in the background."
+    common_violations:
+      - "Rejection for triggering an interstitial ad immediately after the user presses the Android Home button to exit the app."
+      - "Static interstitial without a close button."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.5.18"
+    notes: "Forcing users to click an ad to fully use an app is strictly prohibited."
+
+  - id: "google-monetization-5"
+    title: "Better Ads Experiences"
+    summary: >
+      Unexpected interstitial ads during gameplay, at the beginning of content segments, or before 
+      an app's splash screen are not allowed. Uncloseable video interstitials must not exceed 15 seconds.
+    check_criteria:
+      - "Are full-screen interstitial ads avoided during active gameplay, app loading screens, or right when the user taps a functional button?"
+      - "Can videos longer than 15 seconds be skipped/closed (excluding explicitly opted-in rewarded ads)?"
+    code_signals:
+      - "Check the placement of `InterstitialAd.load()` and `.show()`—they should trigger at logical break points (like post-level score screens), not right as a level begins."
+    common_violations:
+      - "Rejection for popping up a 30-second unskippable ad instantly upon opening the app before the main menu."
+      - "Showing an ad right after the user clicks 'Start Game' instead of before they make the decision to begin."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.5.18"
+    notes: "Explicitly opted-in rewarded ads are exempt from the 15-second skip rule limitation."

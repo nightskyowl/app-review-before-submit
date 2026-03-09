@@ -1,0 +1,109 @@
+_meta:
+  platform: "google"
+  category: "privacy-deception-device-abuse"
+  source_url: "https://support.google.com/googleplay/android-developer/topic/9877467"
+  section_id: "privacy-deception-device-abuse"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-privacy-1"
+    title: "User Data"
+    summary: >
+      Apps must be transparent in how they handle user data. A prominent in-app disclosure 
+      and consent request is required before collecting personal/sensitive data if it's outside 
+      the user's reasonable expectation. Never sell personal and sensitive user data.
+    check_criteria:
+      - "Does the app prompt for explicit consent with a prominent in-app disclosure before accessing sensitive user data?"
+      - "Does the app avoid interpreting navigation away from the consent dialog as granted consent?"
+      - "If the app handles sensitive data (e.g., location, microphone), does it securely transmit it using cryptography like HTTPS?"
+    code_signals:
+      - "Search for usage of runtime permissions (`requestPermissions`) happening *after* displaying custom UI dialogs explaining the data use."
+      - "Ensure all outbound network requests (`HttpURLConnection`, `OkHttpClient`) use `https://` instead of `http://`."
+    common_violations:
+      - "Rejection for collecting user contacts (phonebook) without explaining precisely why in an in-app prompt before the system dialog."
+      - "Uploading geolocation data over unencrypted HTTP connections."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.1.1"
+      - "apple-5.1.2"
+    notes: "If data collection occurs in the background when the user is not actively engaging with the app, prominent disclosure is strictly required."
+
+  - id: "google-privacy-2"
+    title: "Device and Network Abuse"
+    summary: >
+      Apps must not interfere with the user's device, other devices, networks, or Google services. 
+      Apps may not download runnable code dynamically from outside the Play Store.
+    check_criteria:
+      - "Does the app refrain from blocking other apps' ads or forcing interaction with disruptive notifications?"
+      - "Does the app package all native executable code inside its bundle without downloading `.dex`, `.so`, or `.jar` files remotely?"
+    code_signals:
+      - "Search for `DexClassLoader` or `PathClassLoader` attempting to load `.dex` or `.jar` payloads from `getCacheDir()` or external storage."
+      - "Search for the `USE_FULL_SCREEN_INTENT` permission used purely to spam ads instead of high-priority alarms/calls."
+    common_violations:
+      - "Rejection for a library downloading native `.so` files at runtime to bypass Play Protect."
+      - "App using full-screen intents to display ads when the user is on the home screen."
+    platform_specific:
+      react_native:
+        - "Using over-the-air code pushes (e.g., CodePush) to deliver significant functional or policy-violating changes completely unrelated to the approved app version."
+    related_rules:
+      - "apple-2.5.2"
+    notes: "Code executed inside a standard WebView (JS) is usually allowed, provided it is not malicious."
+
+  - id: "google-privacy-3"
+    title: "Misleading Claims"
+    summary: >
+      Apps cannot make misleading or impossible claims about their functionality. The app title, icon, 
+      and metadata must accurately reflect what the app actually does.
+    check_criteria:
+      - "Does the app actually provide the functionality advertised in the store listing screenshots and description?"
+      - "Does the app avoid claiming physically impossible hardware features (e.g., 'X-Ray Scanner', 'Mosquito Repellent')?"
+    code_signals:
+      - "N/A - Manual comparison between store listing metadata claims and actual app logic."
+    common_violations:
+      - "Rejection for a puzzle game using screenshots of high-end 3D racing."
+      - "App claiming to measure blood pressure simply by having the user touch the standard screen."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.3.1"
+      - "apple-2.3.3"
+    notes: "Even if marked clearly as a 'prank' or 'joke' in the description, impossible hardware claims are typically banned."
+
+  - id: "google-privacy-4"
+    title: "Deceptive Device Settings Changes"
+    summary: >
+      Apps cannot modify device settings (like Wi-Fi, bookmarks, or home screen shortcuts) outside the app 
+      without explicit user knowledge and consent. All changes must be easily reversible.
+    check_criteria:
+      - "Does the app refrain from altering system settings or dropping unsolicited shortcuts on the home screen?"
+      - "If the app modifies a setting (with consent), is the change easily reversible by the user?"
+    code_signals:
+      - "Search for `INSTALL_SHORTCUT` intent usages if abused to spam the launcher."
+      - "Search for `WifiManager.setWifiEnabled(false)` or similar attempts to manipulate connectivity stealthily."
+    common_violations:
+      - "Rejection for changing the default browser homepage without informing the user."
+      - "Asking the user to disable Google Play Protect to install a secondary payload."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.4.4"
+    notes: "Apps cannot offer incentives to users to disable other third-party apps."
+
+  - id: "google-privacy-5"
+    title: "Misrepresentation"
+    summary: >
+      Apps and developers must not conceal their true identity. Apps must not fake their country of origin, 
+      especially concerning content that relates to politics, social issues, or matters of public concern.
+    check_criteria:
+      - "Are the developer name, contact info, and organization details accurately represented?"
+      - "Does the app avoid impersonating or claiming affiliation with government entities if unauthorized?"
+    code_signals:
+      - "N/A - Manual review of developer account metadata and origins."
+    common_violations:
+      - "A developer claiming to be based in the US to distribute politically sensitive election news while actually operating in a sanctioned country."
+      - "A privately built utility app using a national government agency's direct branding."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.6"
+    notes: "Coordinated deceptive activity to manipulate users is grounds for account termination."

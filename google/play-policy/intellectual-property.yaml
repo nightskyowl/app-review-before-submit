@@ -1,0 +1,100 @@
+_meta:
+  platform: "google"
+  category: "intellectual-property"
+  source_url: "https://support.google.com/googleplay/android-developer/topic/9876963"
+  section_id: "intellectual-property"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-intellectual-property-1"
+    title: "Impersonation"
+    summary: >
+      Apps must not mislead users by impersonating someone else (another developer, company, or app).
+      App icons, descriptions, and titles must not imply a false relationship with an established entity.
+    check_criteria:
+      - "Does the app icon, title, or description avoid copying assets from existing popular products or TV shows?"
+      - "Is the developer name completely distinct from widely known entities (like Google, Facebook, etc.) unless authorized?"
+    code_signals:
+      - "Check `AndroidManifest.xml` for package names implying official apps (e.g., `com.google.fakeapp`)."
+      - "Inspect `strings.xml` for `app_name` values mimicking popular trademarks."
+    common_violations:
+      - "App title 'Justin Bieber Official' without proper permissions."
+      - "Cryptocurrency app using the real logo of an established exchange to trick users."
+      - "Using a national emblem in the icon to falsely imply government affiliation."
+    platform_specific: {}
+    related_rules:
+      - "apple-4.1"
+    notes: "Apps failing to abide by Android Brand Guidelines also fall under impersonation."
+
+  - id: "google-intellectual-property-2"
+    title: "Unauthorized Use of Copyrighted Content"
+    summary: >
+      Apps cannot infringe copyright by using protected images, artwork, soundboards, or structural content 
+      without authorization from the copyright holder.
+    check_criteria:
+      - "Does the app exclusively use original content or properly licensed third-party assets?"
+      - "Does the app avoid reproducing books, comic books, or professional photos without permission?"
+    code_signals:
+      - "Scan `res/raw/` or `assets/` folders for sound clips belonging to TV shows or movies."
+      - "Search for large text corpus bundles embedded directly in the app that might be copyrighted books."
+    common_violations:
+      - "Soundboard app playing audio clips from popular cartoons or movies."
+      - "Using marketing images from a major video game release as screenshots."
+      - "College or professional sports team logos used as icons."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.2"
+    notes: "When demonstrating app functionality in screenshots, the safest approach is to use original or licensed content."
+
+  - id: "google-intellectual-property-3"
+    title: "Encouraging Infringement of Copyright"
+    summary: >
+      Apps must not instruct or allow users to stream, download, or distribute copyrighted content, 
+      including music and video, in violation of applicable copyright laws.
+    check_criteria:
+      - "Does the app clearly prevent users from downloading a local copy of unauthorized copyrighted media?"
+      - "Do the store listing screenshots and description avoid encouraging users to pirate content?"
+    code_signals:
+      - "Search for `DownloadManager` usage handling media extensions (e.g., `.mp4`, `.mp3`) from known piracy or unverified streams."
+      - "Search `strings.xml` for phrases like 'download free movies' or 'save youtube videos'."
+    common_violations:
+      - "Streaming app with a 'Download for offline viewing' button for unauthorized Hollywood movies."
+      - "Listing screenshot explicitly showing 'Free Music Downloads'."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.2"
+    notes: "Even if the app doesn't host the content, facilitating the download of copyrighted streams is a violation."
+
+  - id: "google-intellectual-property-4"
+    title: "Trademark Infringement"
+    summary: >
+      Apps cannot use another party's word, symbol, or combination identifying a good or service 
+      in a way that causes confusion about the product's source.
+    check_criteria:
+      - "Does the app avoid using established third-party trademarks in its branding and UI?"
+    code_signals:
+      - "N/A - Manual review of branding and user interface assets comparing to known trademarks."
+    common_violations:
+      - "Using the exact logo of a famous fast-food chain for an unofficial delivery app."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.2"
+    notes: "Developers should contact trademark owners directly to resolve concerns or submit advance documentation if permission was granted."
+
+  - id: "google-intellectual-property-5"
+    title: "Counterfeit"
+    summary: >
+      Apps must not sell or promote for sale counterfeit goods (goods mimicking the brand features of a genuine product).
+    check_criteria:
+      - "If the app is an e-commerce platform, does it actively prohibit and police the sale of counterfeit physical goods?"
+    code_signals:
+      - "N/A - Review e-commerce marketplace items and reported sellers."
+    common_violations:
+      - "Marketplace apps promoting fake designer bags or watches."
+    platform_specific: {}
+    related_rules:
+      - "apple-5.2"
+    notes: "Usually applies to physical goods being sold via in-app e-commerce portals."

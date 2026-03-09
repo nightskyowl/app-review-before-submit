@@ -1,0 +1,82 @@
+_meta:
+  platform: "google"
+  category: "store-listing-promotion"
+  source_url: "https://support.google.com/googleplay/android-developer/topic/9877064"
+  section_id: "store-listing-promotion"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "google-promotion-1"
+    title: "App Promotion and Installs"
+    summary: >
+      Apps must not use deceptive promotion tactics, unsolicited SMS, or redirect users 
+      to Google Play without informed action. Ads for the app on other properties must not be misleading.
+    check_criteria:
+      - "Does the app avoid automatically redirecting users to the Play Store without explicit user clicks?"
+      - "Are marketing efforts free from sending unsolicited SMS promotions?"
+    code_signals:
+      - "Search for auto-loading `Intent(Intent.ACTION_VIEW, Uri.parse(\"market://...\"))` that execute without user interaction."
+    common_violations:
+      - "Rejection for an ad in a different app that automatically opens the Play Store page for your app without the user tapping the ad."
+      - "Using sexually explicit ads on the web to drive installs to a general audience app."
+    platform_specific: {}
+    related_rules:
+      - "apple-3.2.2"
+    notes: "The developer is responsible for ensuring ad networks and affiliates follow these promotion rules."
+
+  - id: "google-promotion-2"
+    title: "Store Listing Metadata"
+    summary: >
+      App titles, icons, and descriptions must accurately describe the app. Do not use ALL CAPS 
+      (unless part of the brand name), emojis, or text/images indicating store ranking, price, 
+      or promotional info (e.g., 'Free', '#1 App', 'Sale').
+    check_criteria:
+      - "Is the app title 30 characters or less, omitting promotional keywords, prices, and emojis?"
+      - "Does the metadata exclude unattributed user testimonials or inappropriate content?"
+    code_signals:
+      - "Check `AndroidManifest.xml` for `android:label` containing emojis, words like 'Free', 'Best', or '10% off'."
+    common_violations:
+      - "Rejection for an app icon containing a fake 'New Message' red dot notification to trick users into clicking it."
+      - "Including \"Top Rated Game 2026!\" in the app title or description."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.3.7"
+    notes: "App titles must be 30 characters or less."
+
+  - id: "google-promotion-3"
+    title: "User Ratings and Reviews"
+    summary: >
+      Developers must not manipulate app placement on Google Play. Do not incentivize ratings, 
+      reviews, or installs with discounts, virtual currency, or other rewards.
+    check_criteria:
+      - "Does the app prompt for organic reviews without offering any in-app rewards, coins, or discounts for a 5-star rating?"
+    code_signals:
+      - "Search for UI strings like '5 stars', 'Rate for bonus', or 'Get 100 coins to rate' accompanying a Play Store intent."
+    common_violations:
+      - "Rejection for a popup stating 'Rate us 5 stars to unlock the next level!'."
+      - "Paying a third-party service to generate fake 5-star reviews."
+    platform_specific: {}
+    related_rules:
+      - "apple-3.2.2"
+      - "apple-5.6"
+    notes: "When replying to user reviews in the console, developers must not include affiliate links or ask the user for a higher rating."
+
+  - id: "google-promotion-4"
+    title: "Content Ratings"
+    summary: >
+      Developers must accurately answer the IARC content rating questionnaire. Representing 
+      the app's content deceitfully in the questionnaire to achieve a lower age rating is prohibited.
+    check_criteria:
+      - "Does the assigned content rating accurately reflect all content present in the app, including user-generated content and themes?"
+    code_signals:
+      - "N/A - Manual asset check and questionnaire submission review."
+    common_violations:
+      - "Receiving an 'Everyone' rating when the app actually contains heavy, realistic violence."
+      - "Failing to complete the content rating questionnaire, resulting in an 'Unrated' app removal."
+    platform_specific: {}
+    related_rules:
+      - "apple-2.3.6"
+    notes: "If your app's content changes in an update (e.g., adding user chat algorithms), you must submit a new content rating questionnaire."
