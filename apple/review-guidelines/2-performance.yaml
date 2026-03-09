@@ -1,0 +1,507 @@
+_meta:
+  platform: "apple"
+  category: "performance"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "2"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-2.1"
+    title: "App Completeness"
+    summary: "Submissions must be final versions with all necessary metadata, functional URLs, and no placeholder text. Crashes or incomplete functionality will lead to rejection."
+    check_criteria:
+      - "Is the app free of placeholder text and empty websites?"
+      - "Is a functional demo account provided if the app requires login?"
+      - "Are all in-app purchase items complete and functional?"
+    code_signals:
+      - "Search for 'lorem ipsum' or 'TODO' strings in user-facing UI configurations"
+      - "Search for empty target URLs (e.g., 'http://example.com' or placeholder values) in terms of service or privacy policy metadata"
+    common_violations:
+      - "Rejection for app crashing immediately on launch on physical hardware"
+      - "Rejection for failing to provide test account credentials in the App Store Connect review information"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.2"
+    title: "Beta Testing"
+    summary: "Betas, demos, and trial versions must use TestFlight and not the App Store."
+    check_criteria:
+      - "Is the app intended for standard public distribution rather than being a beta or trial version?"
+    code_signals:
+      - "Search for 'beta', 'test version', or 'demo' prominently displayed in main UI titles or bundle display names"
+    common_violations:
+      - "Rejection for including 'Beta' in the app icon or splash screen for production App Store submission"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.1"
+    title: "Hidden or Undocumented Features"
+    summary: "Don't include hidden features; all product changes must be described specifically. Misleading marketing is grounds for removal."
+    check_criteria:
+      - "Is the app's functionality clear to end users without hidden/dormant features?"
+      - "Are new features explicitly described in the 'What's New' notes?"
+    code_signals:
+      - "Search for remote feature flags that enable major functionality not documented in App Store Connect"
+    common_violations:
+      - "Rejection for remote-enabling real-money gambling without mentioning it during review"
+      - "Rejection for promoting 'virus scanner' functionality that doesn't actually exist on iOS"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.2"
+    title: "In-App Purchases Metadata"
+    summary: "App descriptions/screenshots must clearly indicate if features require additional purchases, and handle SKPaymentTransactionObserver properly."
+    check_criteria:
+      - "Does the app clearly indicate in metadata if featured items require additional purchases?"
+      - "Does the app properly handle the SKPaymentTransactionObserver method at launch?"
+    code_signals:
+      - "Search for 'SKPaymentTransactionObserver' registration in 'didFinishLaunchingWithOptions' (or equivalent startup code)"
+    common_violations:
+      - "Rejection for showing screenshots of premium features without indicating they require an in-app purchase"
+      - "Rejection for IAPs failing to complete when the app is launched from a promoted IAP link"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.3"
+    title: "Screenshots Showing App in Use"
+    summary: "Screenshots should show the app in use, not just splash screens or title art."
+    check_criteria:
+      - "Do the uploaded screenshots show actual on-device usage of the app?"
+    code_signals:
+      - "Look for 'SplashScreen' or 'LoginView' as the only views submitted to the screenshot generator scripts (e.g., Fastlane Snapshot)"
+    common_violations:
+      - "Rejection for using only the app title logo as the screenshot"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.4"
+    title: "App Previews"
+    summary: "Previews must be video screen captures of the app itself."
+    check_criteria:
+      - "Are app previews strictly video screen captures rather than live-action marketing videos?"
+    code_signals:
+      - "N/A - This is a manual check of video files submitted to App Store Connect"
+    common_violations:
+      - "Rejection for including footage of people holding phones rather than actual screen capture footage"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.5"
+    title: "Appropriate Category"
+    summary: "Select the most appropriate category for the app."
+    check_criteria:
+      - "Is the primary category selected appropriate for the app's core functionality?"
+    code_signals:
+      - "N/A - App Store Connect metadata check"
+    common_violations:
+      - "Rejection for placing a generic utility app in the 'Games' category to boost visibility"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.6"
+    title: "Age Rating Questions"
+    summary: "Answer age rating questions honestly. Comply with local requirements for media rating displays."
+    check_criteria:
+      - "Are the age rating questions answered accurately based on the app's content?"
+    code_signals:
+      - "Search for high violence, gambling or mature API usage while the App Store age rating is set explicitly low (manual check required)"
+    common_violations:
+      - "Rejection for a 4+ rated app containing simulated casino gambling"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.7"
+    title: "Unique App Names and Keywords"
+    summary: "Choose unique app names under 30 chars. Do not pack keywords, prices, or trademarked terms."
+    check_criteria:
+      - "Is the app name under 30 characters?"
+      - "Are keywords and subtitles free of unrelated trademarked terms or price claims?"
+    code_signals:
+      - "Search Info.plist for 'CFBundleDisplayName' length > 30 characters"
+    common_violations:
+      - "Rejection for app subtitle including terms like 'Best Free Game' or 'Minecraft Alternative'"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.8"
+    title: "Metadata Age Rating Appropriateness"
+    summary: "App icons, screenshots, and previews must adhere to a 4+ rating, even if the app rating is higher."
+    check_criteria:
+      - "Are all icons, screenshots, and previews appropriate for a general 4+ audience?"
+    code_signals:
+      - "N/A - Manual asset check"
+    common_violations:
+      - "Rejection for screenshots showing excessive blood or violence for a 17+ game"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.9"
+    title: "Asset Rights and Fictional Data"
+    summary: "Developers must have rights to use all materials in metadata. Screenshots should use fictional account information."
+    check_criteria:
+      - "Does the developer have rights to metadata images?"
+      - "Do the screenshots use fictional account data instead of real person data?"
+    code_signals:
+      - "Check UI test/snapshot scripts to ensure they use mock data (e.g., 'John Doe', '555-0199')"
+    common_violations:
+      - "Rejection for screenshots showing real user email addresses, phone numbers, or private info"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.10"
+    title: "Irrelevant Platform Imagery"
+    summary: "Do not include names, icons, or imagery of other platforms or alternative app marketplaces in app or metadata."
+    check_criteria:
+      - "Is the app free of references to competing platforms or alternative app stores?"
+    code_signals:
+      - "Search for 'Android', 'Google Play', or an Android logo icon within asset catalogs or strings files"
+    common_violations:
+      - "Rejection for using an Android-style phone hardware frame in an App Store screenshot"
+    platform_specific:
+      flutter:
+        - "Check if material icons that look specifically like Android system UI are too heavily relied on"
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.11"
+    title: "Pre-order Deliverables"
+    summary: "Pre-order apps must be complete and not materially different from what was advertised."
+    check_criteria:
+      - "If pre-ordered, is the final release substantially the same as advertised?"
+    code_signals:
+      - "N/A - Functional change check"
+    common_violations:
+      - "Rejection for switching from a paid game to a free-to-play model right before releasing a pre-order"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.12"
+    title: "Release Notes"
+    summary: "Clearly describe new features in 'What's New'. Significant changes need specific notes."
+    check_criteria:
+      - "Are significant updates detailed specifically in the release notes rather than generically?"
+    code_signals:
+      - "Review App Store Connect 'releaseNotes' for excessive repetition of 'Bug fixes and performance improvements'"
+    common_violations:
+      - "Rejection for adding a major new social feature but only stating 'Bug fixes' in What's New"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.3.13"
+    title: "In-App Events"
+    summary: "Events must be timely, happen at stated dates, and deep link to the proper destination within the app."
+    check_criteria:
+      - "Does the event deep link direct the user properly to the event destination?"
+    code_signals:
+      - "Search for URL schemes or Universal Links handlers matching event payloads to ensure they route correctly"
+    common_violations:
+      - "Rejection for an in-app event promoting a generic app feature rather than a timely event"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.4.1"
+    title: "Hardware Compatibility"
+    summary: "iPhone apps should run on iPad whenever possible."
+    check_criteria:
+      - "If the app is an iPhone app, does it function correctly on an iPad?"
+    code_signals:
+      - "Check 'UIDeviceFamily' in Info.plist to ensure iPad support isn't unnecessarily excluded (missing value 2)"
+    common_violations:
+      - "Rejection for iPhone apps that crash or display as an unscaled small window on iPads"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.4.2"
+    title: "Power and Resource Efficiency"
+    summary: "Apps must use power efficiently. Rapid battery drain, excessive heat, or unrelated background processes (cryptocurrency mining) are banned."
+    check_criteria:
+      - "Does the app operate without causing rapid battery drain or excessive heat?"
+      - "Is the app free from unrelated background processes like cryptocurrency mining?"
+    code_signals:
+      - "Search for embedded crypto miner SDKs (e.g., 'Coinhive')"
+      - "Search for infinite loops or excessive 'while(true)' operations on the main thread"
+    common_violations:
+      - "Rejection for apps running a hidden background timer that causes battery drain when idle"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.4.3"
+    title: "Apple TV Hardware Inputs"
+    summary: "Apple TV apps must work with the Siri remote unless clearly stated that a third-party controller is required."
+    check_criteria:
+      - "Does the tvOS app function adequately with the standard Siri remote?"
+    code_signals:
+      - "Check tvOS targets for 'GCController' requirements without fallback input handling"
+    common_violations:
+      - "Rejection for tvOS game menus that require a gamepad to navigate without stating it in metadata"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.4.4"
+    title: "System Settings Modification"
+    summary: "Never suggest restarting the device or turning off core system functions like Wi-Fi or security features."
+    check_criteria:
+      - "Does the app ever encourage the user to reboot their device or disable system security?"
+    code_signals:
+      - "Search for UI strings like 'restart your phone', 'turn off wifi', or 'reboot device'"
+    common_violations:
+      - "Rejection for apps prompting users to disable iOS location security entirely rather than using proper prompt requests"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.4.5"
+    title: "Mac App Store Requirements"
+    summary: "macOS apps must be sandboxed, use single App bundles, use appropriate APIs, and cannot auto-launch without consent or escalate root privileges."
+    check_criteria:
+      - "Is the macOS app appropriately sandboxed?"
+      - "Is the macOS app a single self-contained bundle?"
+      - "Does the app avoid escalating to root privileges (setuid)?"
+    code_signals:
+      - "Check entitlements file for 'com.apple.security.app-sandbox' set to true"
+      - "Search for any attempts to run 'sudo' or use 'setuid' functions"
+    common_violations:
+      - "Rejection for Mac apps that attempt to install a background daemon using a separate installer"
+    platform_specific: {}
+    related_rules: []
+    notes: "Requires all language and localization support in a single app bundle."
+
+  - id: "apple-2.5.1"
+    title: "Public APIs"
+    summary: "Apps may only use public APIs, run on currently shipping OS, and phase out deprecated features."
+    check_criteria:
+      - "Does the app strictly use public Apple APIs?"
+      - "Are APIs used for their intended purpose according to documentation (e.g., HomeKit, HealthKit)?"
+    code_signals:
+      - "Search for 'dlopen' or 'dlsym' trying to load private frameworks in native code"
+    common_violations:
+      - "Rejection for calling private iOS framework classes (e.g., 'UIKeyboardImpl')"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.2"
+    title: "Self-Contained Bundles"
+    summary: "Apps must be self-contained, not download/execute code outside the container. Exceptions for educational coding apps."
+    check_criteria:
+      - "Are all executable features contained directly within the app bundle?"
+      - "Does the app avoid downloading and executing external code/scripts?"
+    code_signals:
+      - "Search for 'eval()', 'WKWebView' executing downloaded JS payloads acting as app features, or hot-code-push frameworks like CodePush"
+    common_violations:
+      - "Rejection for downloading a completely new UI module over the air after app launch"
+    platform_specific:
+      react_native:
+        - "Check CodePush/EAS Update configurations to ensure they are not used for significant functional changes"
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.3"
+    title: "Malware and Viruses"
+    summary: "Apps transmitting viruses or code that harms the operating system/hardware are rejected and result in developer program removal."
+    check_criteria:
+      - "Is the app totally clear of any malware payloads or disruptive background scripts?"
+    code_signals:
+      - "Search codebase for known malicious script patterns or dependencies known to have supply chain attacks"
+    common_violations:
+      - "Rejection and account termination for smuggling remote execution backdoors"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.4"
+    title: "Multitasking"
+    summary: "Only use background services for intended purposes: VoIP, audio, location, notifications."
+    check_criteria:
+      - "Are background modes only used for their specific intended use case?"
+    code_signals:
+      - "Check 'UIBackgroundModes' in Info.plist for 'audio', 'location', 'voip' to ensure app actually provides that feature"
+    common_violations:
+      - "Rejection for declaring the 'audio' background mode just to keep the app alive, without actually playing media"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.5"
+    title: "IPv6-Only Networks"
+    summary: "Apps must be fully functional on IPv6-only networks."
+    check_criteria:
+      - "Does the app function perfectly in an IPv6 network environment?"
+    code_signals:
+      - "Search for hardcoded IPv4 addresses (e.g., '192.168.x.x', 'x.x.x.x' formats) in networking code"
+    common_violations:
+      - "Rejection for apps that fail to connect to backend APIs when tested on an Apple-provided IPv6 test network"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.6"
+    title: "WebKit Requirements"
+    summary: "Apps browsing the web must use WebKit or get an entitlement for an alternative engine."
+    check_criteria:
+      - "Does the app use the WKWebView framework for displaying web content?"
+    code_signals:
+      - "Search for 'UIWebView' (deprecated) or inclusion of non-WebKit browser engines without the specific Apple entitlement"
+    common_violations:
+      - "Rejection for using deprecated UIWebView"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.8"
+    title: "Alternate Environments"
+    summary: "Apps may not create alternate desktop or home screen environments."
+    check_criteria:
+      - "Does the app avoid simulating a standalone operating system desktop or home screen?"
+    code_signals:
+      - "Search for UI layers labeled 'Desktop', 'StartMenu', or 'HomeScreen' within an all-encompassing canvas"
+    common_violations:
+      - "Rejection for apps mimicking an iOS home page with functioning app icons inside it"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.9"
+    title: "Altering Standard Functions"
+    summary: "Do not alter or disable standard switches (Volume, Ring/Silent) or block expected UI behaviors out to other apps."
+    check_criteria:
+      - "Are all native hardware buttons functioning as expected without overriding?"
+    code_signals:
+      - "Search for 'AVAudioSession' overrides that capture volume button presses for app-specific controls (unless justified)"
+    common_violations:
+      - "Rejection for overriding volume hardware buttons to control a game character"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.11"
+    title: "SiriKit and Shortcuts"
+    summary: "Apps integrating SiriKit should only handle valid intents, use accurate vocab, and resolve requests directly."
+    check_criteria:
+      - "Are Siri intents registered only for functionality the app actually provides?"
+      - "Does the app resolve Siri requests directly without inserting marketing?"
+    code_signals:
+      - "Check Siri 'Intents' in Info.plist to ensure they logically pair with app functionality"
+    common_violations:
+      - "Rejection for inserting a full-screen audio ad immediately after fulfilling a Siri voice command"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.12"
+    title: "CallKit and SMS Spam"
+    summary: "Spam blocking tools must clearly explain criteria and only use data for operating the extension."
+    check_criteria:
+      - "For CallKit/SMS blocking apps, is the criteria for blocking clearly identified in marketing text?"
+      - "Does the app avoid using accessed telecom data for tracking or profile creation?"
+    code_signals:
+      - "Search 'CXCallDirectoryProvider' implementations to ensure logic strictly matches the stated spam blocklist purpose"
+    common_violations:
+      - "Rejection for secretly uploading the user's phone contact list to a tracking server under the guise of an SMS blocker"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.13"
+    title: "Facial Recognition"
+    summary: "Must use LocalAuthentication (Face ID) for account auth, not ARKit, and use alternatives for users under 13."
+    check_criteria:
+      - "Does the app use LocalAuthentication instead of custom ARKit modeling for account access?"
+      - "Is there an alternate authentication method for users under 13?"
+    code_signals:
+      - "Search for 'ARFaceTrackingConfiguration' used simultaneously with authentication/login flows"
+      - "Search for 'LAContext' usage for proper biometrics authorization"
+    common_violations:
+      - "Rejection for implementing a custom face scanner via the camera for login instead of native Face ID"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.14"
+    title: "Recording User Activity"
+    summary: "Must request explicit consent and give visual/audible indication when recording camera, microphone, or screen."
+    check_criteria:
+      - "Does the app explicitly ask for consent before making a record of screen or hardware input?"
+    code_signals:
+      - "Search for 'RPScreenRecorder' usage without clear on-screen indicators"
+      - "Search for 'AVAudioRecorder' running completely hidden from the user"
+    common_violations:
+      - "Rejection for 'spy' camera features that capture media while appearing to be off"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.15"
+    title: "Files Integration"
+    summary: "File viewing/selection apps should include items from the Files app and iCloud documents."
+    check_criteria:
+      - "If the app allows file selection, does it integrate natively with the Files app/iCloud documents?"
+    code_signals:
+      - "Search for 'UIDocumentPickerViewController' ensuring standard file access is granted"
+    common_violations:
+      - "Rejection for custom file pickers that completely exclude the user's iCloud drive files"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.16"
+    title: "Widgets and App Clips"
+    summary: "Widgets/extensions must relate to the app. App Clip features must be in the main app, with no ads in the clip."
+    check_criteria:
+      - "Are App Clip features also present in the main app binary?"
+      - "Are App Clips completely free of advertising?"
+    code_signals:
+      - "Search App Clip target for inclusion of ad network SDKs (e.g., 'GoogleMobileAds', 'AppLovin')"
+    common_violations:
+      - "Rejection for showing a banner ad in an App Clip"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.17"
+    title: "Matter Support"
+    summary: "Matter apps must use Apple's framework or a CSA-certified software component."
+    check_criteria:
+      - "Does the app use the Apple Matter Support framework for pairing devices?"
+    code_signals:
+      - "Search for 'MatterSupport' framework imports in smart home pairing flows"
+    common_violations:
+      - "Rejection for using proprietary Matter implementations rather than the official or CSA-certified frameworks"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-2.5.18"
+    title: "Display Advertising Restrictions"
+    summary: "Ads limited to main app, appropriate for age rating. No ads in widgets. Interstitial ads must provide close buttons."
+    check_criteria:
+      - "Are ads restricted strictly to the main app binary (no widgets/extensions)?"
+      - "Do interstitial ads have visible and easily accessible close/skip buttons without manipulating users?"
+    code_signals:
+      - "Search widget/extension targets for ad SDK initializations"
+      - "Check if ad targeting leverages sensitive HealthKit or ClassKit data (verifying data flows)"
+    common_violations:
+      - "Rejection for showing a fake 'X' button on an interstitial ad to trick users into clicking"
+    platform_specific: {}
+    related_rules: []
+    notes: ""

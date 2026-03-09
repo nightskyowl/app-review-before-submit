@@ -1,0 +1,171 @@
+_meta:
+  platform: "apple"
+  category: "design"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "4"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-4.1"
+    title: "Copycats"
+    summary: "Apps cannot simply copy another app's idea, name, UI, or impersonate other services. Do not use another developer's icon or brand."
+    check_criteria:
+      - "Is the app's functionality and UI distinct from other popular apps on the App Store?"
+      - "Does the app icon and branding avoid mirroring another established developer's assets?"
+    code_signals:
+      - "N/A - Manual review of branding and UI design against top chart apps"
+    common_violations:
+      - "Rejection for submitting a clone of 'Wordle' with identical colors and mechanics"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.2"
+    title: "Minimum Functionality"
+    summary: "Apps must be more than a repacked website, provide lasting entertainment or utility, and not crash."
+    check_criteria:
+      - "Does the app provide functionality beyond a simple web view of an existing website?"
+      - "Does the app have sufficient content or utility to be considered an 'app' rather than a static document?"
+    code_signals:
+      - "Search for 'WKWebView' being the only view in the entire app, pointing to a single URL"
+    common_violations:
+      - "Rejection for an app that only displays a company's static 'About Us' webpage"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.2.3"
+    title: "Standalone Functionality and Background Downloads"
+    summary: "Apps must work without requiring other apps to be installed. Initial launch resource downloads must prompt the user and disclose size."
+    check_criteria:
+      - "Does the app function independently without requiring a secondary app?"
+      - "If the app does a large initial download, does it prompt the user and show the download size?"
+    code_signals:
+      - "Search for 'canOpenURL' checks used to force a user to download a completely separate app before granting access"
+    common_violations:
+      - "Rejection for a game downloading 2GB of assets on first launch without warning the user"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.2.6"
+    title: "Templated Apps"
+    summary: "Apps created from templates must be submitted by the provider of the content, not the app generation service."
+    check_criteria:
+      - "Is the app submitted under the developer account of the actual business/entity the app represents?"
+    code_signals:
+      - "N/A - App Store Connect account check"
+    common_violations:
+      - "Rejection for an agency submitting 50 different identical event apps for different clients under their own developer account"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.3"
+    title: "Spam"
+    summary: "Do not create multiple Bundle IDs for variations of the same app. Avoid oversaturated categories unless offering a highly unique experience."
+    check_criteria:
+      - "Is the app significantly different from other apps already submitted by this developer account?"
+    code_signals:
+      - "N/A - App Store Connect portfolio check"
+    common_violations:
+      - "Rejection for publishing 10 separate 'Flashlight' apps with just different icon colors"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.4"
+    title: "Extensions"
+    summary: "App extensions must comply with guidelines, contain some native UI functionality, and not include marketing/IAPs."
+    check_criteria:
+      - "Do included app extensions omit any marketing, advertising, or in-app purchase flows?"
+    code_signals:
+      - "Search for 'StoreKit' or ad network SDKs within the App Extension targets"
+    common_violations:
+      - "Rejection for putting a banner ad inside a Custom Keyboard extension"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.5.2"
+    title: "Apple Music"
+    summary: "Apps using MusicKit must not require payment to access Apple Music, must not illegally download/share files, and must securely handle user data."
+    check_criteria:
+      - "Does the app let users play Apple Music without attempting to monetize the access itself?"
+      - "Are Apple Music credentials and data kept secure and not used for ad tracking?"
+    code_signals:
+      - "Search 'SKCloudServiceController' to verify Apple Music integration doesn't trigger unrelated IAP prompts"
+    common_violations:
+      - "Rejection for charging users a $1 fee inside the app to unlock the 'Apple Music Player' feature"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.5.3"
+    title: "Spamming Apple Services"
+    summary: "Do not use Apple Services (Game Center, Push Notifications) to spam or phish users."
+    check_criteria:
+      - "Are Push Notifications strictly used for relevant app updates and not spam?"
+    code_signals:
+      - "N/A - Server-side and runtime check of push payloads"
+    common_violations:
+      - "Rejection for sending an unsolicited marketing push notification to all users every day"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.7"
+    title: "Mini Apps and Emulators"
+    summary: "HTML5/JS mini apps, and retro game emulators must follow privacy rules, filter objectionable content, use IAP for digital goods, and restrict native API access."
+    check_criteria:
+      - "Do embedded mini-games or emulators use IAP for unlocking their internal digital content?"
+      - "Are age-gates implemented for mini-apps exceeding the main app's rating?"
+    code_signals:
+      - "Search for custom JS-to-Native bridging that exposes private device APIs to embedded web games"
+    common_violations:
+      - "Rejection for an embedded HTML5 mini-game that uses its own credit card checkout to buy game lives"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.8"
+    title: "Login Services"
+    summary: "If using third-party logins (Facebook, Google, etc.), an equivalent login option (like Sign in with Apple) with privacy protections must be offered."
+    check_criteria:
+      - "If Facebook/Google/etc. login is present, is 'Sign in with Apple' or a comparable privacy-focused login also an option?"
+    code_signals:
+      - "Search for 'FBSDKLoginKit' or 'GoogleSignIn'. If present, verify presence of 'AuthenticationServices' (Sign in with Apple)"
+    common_violations:
+      - "Rejection for offering only 'Sign in with Facebook' without an alternative login method"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.9"
+    title: "Apple Pay"
+    summary: "Apple Pay must provide purchase/recurring-payment info prior to sale and use correct branding."
+    check_criteria:
+      - "Does the Apple Pay UI explicitly show the renewal term, content provided, and price before checkout?"
+    code_signals:
+      - "Search 'PKPaymentRequest' to verify the summary items match clearly stated prices in the UI"
+    common_violations:
+      - "Rejection for using a custom button that says 'Buy with Apple' instead of the official Apple Pay button asset"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-4.10"
+    title: "Monetizing Built-In Capabilities"
+    summary: "You may not monetize built-in capabilities provided by the OS, like camera, gyroscope, or Push Notifications."
+    check_criteria:
+      - "Is the app free of paywalls that block basic hardware access like the camera or gyroscope?"
+    code_signals:
+      - "Search for 'AVCaptureSession' initialization wrapped inside an IAP validation check"
+    common_violations:
+      - "Rejection for requiring a $2 purchase just to let the app access the device's standard camera"
+    platform_specific: {}
+    related_rules: []
+    notes: ""

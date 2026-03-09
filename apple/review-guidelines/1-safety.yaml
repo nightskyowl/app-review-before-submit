@@ -1,0 +1,296 @@
+_meta:
+  platform: "apple"
+  category: "safety"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "1"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-1.1"
+    title: "Objectionable Content"
+    summary: "Apps should not include content that is offensive, insensitive, upsetting, intended to disgust, or in exceptionally poor taste."
+    check_criteria:
+      - "Does the app contain offensive, crude, or culturally insensitive content?"
+    code_signals:
+      - "Search for hardcoded offensive terms or assets in strings files"
+    common_violations:
+      - "Rejection for including 'creepy' features or generally offensive commentary"
+    platform_specific: {}
+    related_rules: []
+    notes: "Professional political satirists and humorists are generally exempt."
+
+  - id: "apple-1.1.1"
+    title: "Defamatory and Discriminatory Content"
+    summary: "Content that is defamatory, discriminatory, or mean-spirited, including commentary about protected classes."
+    check_criteria:
+      - "Does the app contain discriminatory language or targeted harassment features?"
+    code_signals:
+      - "Search for reporting categories in UGC features that lack 'hate speech' or 'harassment' flags"
+    common_violations:
+      - "Rejection for apps that target individuals or groups for humiliation"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.1.2"
+    title: "Violence and Animal Abuse"
+    summary: "Realistic portrayals of killings, torture, abuse, or content encouraging violence."
+    check_criteria:
+      - "Does the app feature realistic violence against humans or animals?"
+      - "If a game, do enemies exclusively target a real-world race, culture, or government?"
+    code_signals:
+      - "Search for game assets named 'torture', 'gore', or similar terms without corresponding age ratings"
+    common_violations:
+      - "Rejection for games where enemies represent a real, specific group of people or real governments"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.1.3"
+    title: "Weapons and Dangerous Objects"
+    summary: "Depictions encouraging illegal/reckless use of weapons, or facilitating the purchase of firearms."
+    check_criteria:
+      - "Does the app facilitate the sale of firearms or ammunition?"
+      - "Does the app encourage the reckless use of weapons?"
+    code_signals:
+      - "Search for 'gun', 'firearm', or 'ammunition' in product listing IDs or internal database models for e-commerce apps"
+    common_violations:
+      - "Rejection for apps selling gun parts or attachments even if not the full firearm"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.1.4"
+    title: "Overtly Sexual Material"
+    summary: "Pornographic material, hookup apps, or apps facilitating prostitution/human trafficking."
+    check_criteria:
+      - "Does the app contain explicit descriptions or displays of sexual organs or activities?"
+      - "Is the app designed to facilitate hookups or escort services?"
+    code_signals:
+      - "Search for API endpoints related to 'nsfw', 'hookup', 'escort', or 'sugar_dating'"
+    common_violations:
+      - "Rejection for dating apps that lack robust moderation or market themselves as 'hookup' apps"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.1.5"
+    title: "Inflammatory Religious Commentary"
+    summary: "Inflammatory religious commentary or inaccurate quotations of religious texts."
+    check_criteria:
+      - "Does the app contain inflammatory religious commentary?"
+      - "Does the app misquote religious texts in a misleading way?"
+    code_signals:
+      - "Search for 'bible', 'quran', 'torah' strings combined with editorial or interpretive models that might misquote text"
+    common_violations:
+      - "Rejection for religious apps that alter sacred texts without disclosing it's a specific interpretation"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.1.6"
+    title: "False Information and Pranks"
+    summary: "False information, inaccurate device data, trick/joke functionality (like fake location trackers), or anonymous/prank communications."
+    check_criteria:
+      - "Does the app provide fake device data or pretend to perform a function it cannot?"
+      - "Does the app enable anonymous phone calls or SMS/MMS messages?"
+    code_signals:
+      - "Search for APIs that spoof caller ID, fake locations (e.g., 'CoreLocation' manipulation), or prank SMS services"
+    common_violations:
+      - "Rejection for 'fake lie detector' or 'fake virus scanner' apps even when labeled 'for entertainment purposes'"
+      - "Rejection for apps enabling anonymous text messaging"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.1.7"
+    title: "Capitalizing on Tragic Events"
+    summary: "Harmful concepts that capitalize or seek to profit from recent/current events like conflicts, terrorist attacks, and epidemics."
+    check_criteria:
+      - "Does the app seek to profit from violent conflicts, terrorist attacks, or epidemics?"
+    code_signals:
+      - "Search for keywords relating to recent pandemics or conflicts in IAP product identifiers or ad campaign metadata"
+    common_violations:
+      - "Rejection for games based on recent real-world tragedies or epidemics (e.g., COVID-19 themed games)"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.2"
+    title: "User-Generated Content"
+    summary: "Requirements for apps containing user-generated content (UGC) or social networking features to prevent abuse."
+    check_criteria:
+      - "Does the app contain a method for filtering objectionable material?"
+      - "Does the app have a mechanism to report offensive content?"
+      - "Can users block abusive users?"
+      - "Is there published contact information for users to reach the developer?"
+    code_signals:
+      - "Search for UI buttons labeled 'Report', 'Flag', or 'Block' in lists/table views"
+      - "Search for API requests blocking user IDs or submitting content flags"
+      - "Search for 'Contact Us' or 'Support' links in the Settings/Profile views"
+    common_violations:
+      - "Rejection for missing 'Block User' functionality in a social app"
+      - "Rejection for allowing users to post text/images without a reporting mechanism"
+      - "Rejection for random chat roulette apps where moderation is impossible"
+    platform_specific: {}
+    related_rules: []
+    notes: "Incidental NSFW content from web services is allowed if hidden by default and configured via website."
+
+  - id: "apple-1.2.1"
+    title: "Creator Content"
+    summary: "Apps featuring non-developer creators authoring, sharing, and monetizing UGC."
+    check_criteria:
+      - "If the app is a creator app, does it provide a way to identify content exceeding the app's age rating?"
+      - "Does the app restrict underage user access to mature creator content based on verified or declared age?"
+    code_signals:
+      - "Search for age gating mechanisms in signup flows or content access checks (e.g., 'user.age >= 18')"
+    common_violations:
+      - "Rejection for allowing minors to access 18+ creator content without age verification"
+    platform_specific: {}
+    related_rules: []
+    notes: "Creator experiences are treated as UGC and must comply with 3.1.1 for IAP."
+
+  - id: "apple-1.3"
+    title: "Kids Category"
+    summary: "Requirements for apps in the Kids Category, including privacy limits, parental gates, and prohibition of third-party analytics/ads without strict review."
+    check_criteria:
+      - "For Kids Category apps, are all outbound links and purchasing opportunities hidden behind a parental gate?"
+      - "Does the app guarantee no transmission of identifiable information to third parties?"
+    code_signals:
+      - "Search for 'ParentalGate' or math-problem prompts before opening external URLs or StoreKit interfaces"
+      - "Search for third-party analytics SDKs (e.g., Firebase, Flurry) which might collect IDFA if not configured for kids"
+    common_violations:
+      - "Rejection for sending IDFA or other device identifiers to ad networks in a Kids app"
+      - "Rejection for easily bypassed parental gates (e.g., simple 'Press OK to continue' instead of an adult math problem)"
+    platform_specific: {}
+    related_rules: []
+    notes: "Third-party analytics are only permitted if they do not collect IDFA, location, or identifiable data."
+
+  - id: "apple-1.4"
+    title: "Physical Harm"
+    summary: "Apps behaving in a way that risks physical harm may be rejected."
+    check_criteria:
+      - "Does the app encourage activities that risk physical harm?"
+    code_signals:
+      - "Search for features encouraging physical challenges, bets, or dangerous stunts"
+    common_violations:
+      - "Rejection for apps encouraging dangerous viral trends or physical stunts"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.4.1"
+    title: "Medical Apps"
+    summary: "Apps providing medical data, diagnoses, or treatments must support claims and remind users to consult doctors."
+    check_criteria:
+      - "Are accuracy claims around health measurements supported by disclosed data/methodology?"
+      - "Does the app include a disclaimer reminding users to check with a doctor before making medical decisions?"
+    code_signals:
+      - "Search for 'consult a doctor', 'medical advice', or 'physician' in app strings"
+      - "Search for hardware sensors used to make unsupported medical claims (e.g., measuring blood pressure using only the camera)"
+    common_violations:
+      - "Rejection for claiming to measure blood pressure or oxygen solely using the device camera/flash"
+      - "Rejection for missing a clear medical disclaimer on diagnostic screens"
+    platform_specific: {}
+    related_rules: []
+    notes: "If regulatory clearance has been received, a link must be provided in the review notes."
+
+  - id: "apple-1.4.2"
+    title: "Drug Dosage Calculators"
+    summary: "Drug dosage calculators must come from approved entities (manufacturers, hospitals, pharmacies) or FDA."
+    check_criteria:
+      - "If the app is a drug dosage calculator, is the developer account associated with a recognized medical/health institution?"
+    code_signals:
+      - "Search for math models or forms performing calculations on medication doses (variables like 'mg_per_kg', 'dosage')"
+    common_violations:
+      - "Rejection for individual developers publishing drug calculators without institutional affiliation"
+    platform_specific: {}
+    related_rules: []
+    notes: "Requires institutional developer account due to potential harm to patients."
+
+  - id: "apple-1.4.3"
+    title: "Substance Consumption and Sales"
+    summary: "Prohibits encouraging tobacco/vape, illegal drugs, or excessive alcohol. Facilitating sale of controlled substances or tobacco is disallowed (except legal pharmacies/dispensaries)."
+    check_criteria:
+      - "Does the app encourage the consumption of tobacco, illegal drugs, or excessive alcohol?"
+      - "Does the app facilitate the sale of tobacco or illegal drugs (excluding licensed entities)?"
+    code_signals:
+      - "Search for 'vape', 'tobacco', 'weed', or 'marijuana' product listings in the store catalog without geolocation/licensing checks"
+    common_violations:
+      - "Rejection for apps selling vape juice or e-cigarettes"
+      - "Rejection for drinking games that encourage binge drinking"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.4.4"
+    title: "DUI Checkpoints and Reckless Driving"
+    summary: "Apps may only display DUI checkpoints published by law enforcement and must not encourage drunk driving or speeding."
+    check_criteria:
+      - "Does the app display user-submitted DUI checkpoints?"
+      - "Does the app encourage excessive speeding or reckless driving?"
+    code_signals:
+      - "Search for map pins or report types related to 'police', 'DUI', or 'checkpoint' in community driving apps"
+    common_violations:
+      - "Rejection for crowdsourced DUI checkpoint reporting features"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.4.5"
+    title: "Dangerous Activities and Challenges"
+    summary: "Apps should not urge customers to participate in activities that risk physical harm to themselves or others."
+    check_criteria:
+      - "Does the app urge users to participate in dangerous bets or challenges?"
+    code_signals:
+      - "Search for 'dare', 'challenge', or 'bet' mechanics paired with physical actions"
+    common_violations:
+      - "Rejection for viral challenge apps that involve dangerous stunts"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.5"
+    title: "Developer Information"
+    summary: "Apps must provide accurate Support URLs and contact information."
+    check_criteria:
+      - "Is a valid Support URL provided?"
+      - "Does the app include an easy way to contact the developer for questions/support?"
+    code_signals:
+      - "Check App Store Connect metadata for valid 'support_url'"
+      - "Search for UI buttons like 'Contact Support' or email links"
+    common_violations:
+      - "Rejection for dead links or placeholders in the Support URL field"
+    platform_specific: {}
+    related_rules: []
+    notes: "Particularly important for classroom apps. Wallet passes also need valid contact info on the pass."
+
+  - id: "apple-1.6"
+    title: "Data Security"
+    summary: "Apps should implement appropriate security measures to prevent unauthorized access or disclosure of user info."
+    check_criteria:
+      - "Are appropriate security measures in place to protect collected user data?"
+    code_signals:
+      - "Search for plain-text storage of passwords or sensitive data in 'UserDefaults' or unencrypted databases"
+      - "Search for 'http://' network requests transmitting sensitive user data instead of 'https://'"
+    common_violations:
+      - "Rejection for sending personally identifiable information over unencrypted HTTP"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-1.7"
+    title: "Reporting Criminal Activity"
+    summary: "Apps reporting alleged criminal activity must involve local law enforcement and only be offered where involvement is active."
+    check_criteria:
+      - "If the app reports crimes, is it partnered/associated with local law enforcement?"
+    code_signals:
+      - "Search for 'report crime' or 'incident report' endpoints without verified law enforcement integration"
+    common_violations:
+      - "Rejection for vigilante-style crime reporting apps made by unaffiliated developers"
+    platform_specific: {}
+    related_rules: []
+    notes: ""

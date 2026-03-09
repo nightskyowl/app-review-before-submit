@@ -1,0 +1,104 @@
+_meta:
+  platform: "apple"
+  category: "business"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "3"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-3.1.1"
+    title: "In-App Purchase"
+    summary: "Unlocking features or functionality within the app must use in-app purchases. Cannot use own mechanisms like license keys or QR codes."
+    check_criteria:
+      - "Does the app exclusively use Apple's in-app purchase system to unlock features, content, or subscriptions?"
+    code_signals:
+      - "Search for third-party payment gateways (e.g., 'Stripe', 'Braintree') being used for digital goods instead of 'StoreKit'"
+    common_violations:
+      - "Rejection for prompting users to enter a license key bought on a website to unlock premium app features"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-3.1.2"
+    title: "Subscriptions"
+    summary: "Auto-renewable subscriptions must provide ongoing value, last at least 7 days, and be available across all user devices."
+    check_criteria:
+      - "Does the subscription provide ongoing value rather than a single static unlock?"
+      - "Can the user access the subscription across all their Apple devices?"
+    code_signals:
+      - "N/A - Primarily a business model and functional check"
+    common_violations:
+      - "Rejection for making a basic utility scan tool a $50/week subscription without ongoing value"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-3.1.3"
+    title: "Other Purchase Methods (Reader Apps & Physical Goods)"
+    summary: "Reader apps may allow accessing previously purchased content. Physical goods/services consumed outside the app must use non-IAP payment methods."
+    check_criteria:
+      - "If selling physical goods (e.g., food delivery, physical merchandise), is a payment method other than IAP used?"
+    code_signals:
+      - "Check 'PKPaymentAuthorizationViewController' usage for Apple Pay physical goods integration"
+    common_violations:
+      - "Rejection for trying to use In-App Purchase to pay for a food delivery order"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-3.1.4"
+    title: "Hardware-Specific Content"
+    summary: "Features dependent on specific hardware can unlock functionality without in-app purchase, provided the hardware is the primary enabler."
+    check_criteria:
+      - "Is the unlocked app functionality directly tied to the connected physical hardware?"
+    code_signals:
+      - "Search for Bluetooth 'CoreBluetooth' or MFi 'ExternalAccessory' pairing code acting as the unlock trigger"
+    common_violations:
+      - "Rejection for requiring a user to buy a generic branded t-shirt to unlock a specific level in a game"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-3.1.5"
+    title: "Cryptocurrencies"
+    summary: "Apps may facilitate crypto storage (if from an organization) and exchange (if licensed). On-device mining is prohibited."
+    check_criteria:
+      - "Is cryptocurrency mining explicitly performed off-device?"
+      - "If acting as an exchange, are all proper regulatory licenses obtained for available regions?"
+    code_signals:
+      - "Search for embedded CPU-intensive crypto hashing algorithms within the iOS app code"
+    common_violations:
+      - "Rejection for attempting on-device cryptocurrency mining that causes battery drain"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-3.2.1"
+    title: "Acceptable Business Models"
+    summary: "Acceptable models include displaying own apps for promotion, specific collections with editorial content, wallet passes, and free insurance apps."
+    check_criteria:
+      - "If displaying third-party apps, is it a curated collection with robust editorial content?"
+    code_signals:
+      - "Search for excessive static arrays of app IDs linking out to an arbitrary list of App Store apps"
+    common_violations:
+      - "Rejection for creating an app that just acts as an alternate App Store catalog without editorial value"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-3.2.2"
+    title: "Unacceptable Business Models"
+    summary: "Unacceptable models include creating App Store interfaces, artificially manipulating visibility, forcing ratings, or restricting by location/carrier arbitrarily."
+    check_criteria:
+      - "Is the app free from arbitrary location or carrier restrictions?"
+      - "Does the app refrain from forcing users to rate/review to unlock content?"
+    code_signals:
+      - "Search for 'SKStoreReviewController.requestReview' being called conditionally based on blocking user access to a core feature"
+    common_violations:
+      - "Rejection for displaying a mandatory 'Rate 5 stars to play next level' popup"
+    platform_specific: {}
+    related_rules: []
+    notes: ""

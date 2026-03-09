@@ -1,0 +1,154 @@
+_meta:
+  platform: "apple"
+  category: "legal"
+  source_url: "https://developer.apple.com/app-store/review/guidelines/"
+  section_id: "5"
+  last_verified: "2026-03-09"
+  last_changed: "2026-03-09"
+  severity_if_violated: "rejection"
+  version: "2026-03"
+
+rules:
+  - id: "apple-5.1.1"
+    title: "Data Collection and Storage"
+    summary: "Apps must have a privacy policy explaining data collection/sharing/retention. Must get consent for data collection and only request necessary data. Must support account deletion if account creation exists."
+    check_criteria:
+      - "Does the app have a valid Privacy Policy URL explicitly stating what data is collected and how it's used?"
+      - "Does the app offer an in-app account deletion mechanism if it supports account creation?"
+    code_signals:
+      - "Search for 'ASAuthorizationAppleIDButton' (Sign in with Apple) and verify there is a corresponding deletion flow"
+    common_violations:
+      - "Rejection for requiring users to email support to delete their account instead of providing an in-app deletion button"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.1.2"
+    title: "Data Use and Sharing"
+    summary: "Data may only be shared with third parties to improve the app or serve ads, and explicit permission is required (App Tracking Transparency). Cannot build surreptitious profile."
+    check_criteria:
+      - "Is the App Tracking Transparency (ATT) prompt implemented before sharing tracking data with third-party networks?"
+    code_signals:
+      - "Search for 'ATTrackingManager.requestTrackingAuthorization' before ad SDKs (like Facebook or AdMob) are initialized"
+    common_violations:
+      - "Rejection for collecting device fingerprints to track users who denied the ATT prompt"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.1.3"
+    title: "Health and Health Research"
+    summary: "Health data cannot be used for advertising or marketing. Must not write inaccurate data to HealthKit. Health research must have IRB approval."
+    check_criteria:
+      - "Does the app strictly avoid using HealthKit data for serving advertisements?"
+    code_signals:
+      - "Search for 'HKHealthStore' and verify references to third-party analytics/ad APIs are isolated"
+    common_violations:
+      - "Rejection for sharing step count data with a third-party ad network to target fitness ads"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.1.4"
+    title: "Kids"
+    summary: "Apps for kids must not include third-party analytics or third-party advertising unless strictly complying with Kids Category criteria. Cannot use 'For Kids' in metadata if not in Kids Category."
+    check_criteria:
+      - "If the app is in the Kids Category, are all third-party analytics and advertising SDKs removed?"
+    code_signals:
+      - "N/A - Auditing pod dependencies or linked frameworks for ad networks in a Kids app"
+    common_violations:
+      - "Rejection for including the standard Google Analytics SDK in an app primarily targeted at toddlers"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.1.5"
+    title: "Location Services"
+    summary: "Location Services must be directly relevant to the app's features and have proper consent notifications."
+    check_criteria:
+      - "Does the app's Location Services purpose string clearly explain why the location is needed?"
+    code_signals:
+      - "Check 'Info.plist' for 'NSLocationWhenInUseUsageDescription' indicating exactly what the feature does"
+    common_violations:
+      - "Rejection for a generic location prompt saying 'App needs location to work' without explaining the specific feature"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.2"
+    title: "Intellectual Property"
+    summary: "Don't use protected third-party materials (trademarks, code, audio) without permission. Streamed/downloaded content requires authorization."
+    check_criteria:
+      - "Does the app only display media or use trademarks for which the developer has explicit written permission?"
+    code_signals:
+      - "N/A - Manual review of branding and media playback sources"
+    common_violations:
+      - "Rejection for putting a trademarked superhero in the app icon without a licensing agreement"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.2.5"
+    title: "Apple Products"
+    summary: "Apps must not appear confusingly similar to Apple apps/products. Do not misuse Apple emoji or data like Apple Weather / Activity rings."
+    check_criteria:
+      - "Does the app avoid trying to look identical to core iOS apps like Messages or Settings?"
+    code_signals:
+      - "N/A - Visual UI inspection"
+    common_violations:
+      - "Rejection for building an SMS client that identically mirrors the green bubble UI of Apple Messages"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.3"
+    title: "Gaming, Gambling, and Lotteries"
+    summary: "Real money gaming must be geo-restricted, licensed, and free. Sweepstakes must state Apple is not a sponsor. No IAPs for real money gaming credits."
+    check_criteria:
+      - "Are sweepstakes/giveaways explicitly stating that Apple is not involved or a sponsor?"
+    code_signals:
+      - "Search hardcoded text strings for 'Apple is not a sponsor' in contest UI views"
+    common_violations:
+      - "Rejection for running a raffle where users can buy tickets via In-App Purchase"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.4"
+    title: "VPN Apps"
+    summary: "VPN apps must use NEVPNManager API, be an enrolled organization, and strictly not sell or share user data."
+    check_criteria:
+      - "If providing a VPN, is the developer account an Organization (not Individual) and is data strictly not sold?"
+    code_signals:
+      - "Search for 'NEVPNManager' and cross-reference Info.plist capabilities"
+    common_violations:
+      - "Rejection of a VPN app submitted by an Individual developer account"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.5"
+    title: "Mobile Device Management"
+    summary: "MDM apps must be offered by commercial enterprises or institutions. Must clearly declare data collection and not sell/share data."
+    check_criteria:
+      - "Is the MDM app provided by a recognized commercial enterprise and strict about non-sharing of data?"
+    code_signals:
+      - "N/A - Review of MDM entitlement and organization status"
+    common_violations:
+      - "Rejection for an MDM app that shares device analytics with a third-party monetization partner"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
+
+  - id: "apple-5.6"
+    title: "Developer Code of Conduct"
+    summary: "Do not trick users, manipulate reviews or charts, engage in abusive support requests, or repeatedly run scams."
+    check_criteria:
+      - "Is the custom app review prompt omitted in favor of the official StoreKit review API?"
+    code_signals:
+      - "Search for 'SKStoreReviewController.requestReview' as the only mechanism for soliciting ratings"
+    common_violations:
+      - "Rejection for a custom popup that only forwards 5-star ratings to the App Store while intercepting lower ratings"
+    platform_specific: {}
+    related_rules: []
+    notes: ""
