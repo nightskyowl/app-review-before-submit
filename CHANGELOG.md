@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-03-10
+
+### Added
+- Claude Code plugin packaging (`.claude-plugin/plugin.json`) for one-command installation
+- Plugin skill directory (`skills/review-app/SKILL.md`) with `${CLAUDE_PLUGIN_ROOT}` path references
+- Comprehensive installation instructions in README for 5 patterns: plugin marketplace, --add-dir, git submodule, Antigravity, Cursor/Copilot
+
+### Changed
+- README rewritten with concrete install commands for all supported agent platforms
+- Repository structure in CLAUDE.md updated to include new plugin directories
+
 ## [1.0.0] - 2026-03-09
 
 ### Added

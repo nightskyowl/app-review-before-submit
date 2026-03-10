@@ -1,0 +1,23 @@
+{
+  "name": "app-review-before-submit",
+  "version": "1.0.0",
+  "description": "AI-native compliance knowledge base for Apple App Store and Google Play review policies. Scans app codebases against current review guidelines and generates a compliance report before submission.",
+  "author": {
+    "name": "nightskyowl",
+    "url": "https://github.com/nightskyowl"
+  },
+  "homepage": "https://github.com/nightskyowl/app-review-before-submit",
+  "repository": "https://github.com/nightskyowl/app-review-before-submit",
+  "license": "MIT",
+  "keywords": [
+    "app-store",
+    "google-play",
+    "review-guidelines",
+    "compliance",
+    "ios",
+    "android",
+    "flutter",
+    "react-native",
+    "pre-submission"
+  ]
+}

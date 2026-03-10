@@ -149,6 +149,13 @@ All policy changes require human review before merging, even if detected by auto
 ├── SKILL.md
 ├── metadata.json
 │
+├── .claude-plugin/
+│   └── plugin.json
+│
+├── skills/
+│   └── review-app/
+│       └── SKILL.md
+│
 ├── meta/
 │   ├── sources.yaml
 │   ├── last-updated.yaml
