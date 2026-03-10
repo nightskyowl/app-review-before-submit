@@ -8,7 +8,7 @@ AI-native compliance knowledge base for Apple App Store and Google Play review p
 
 A structured YAML knowledge base + AI agent skill that lets coding agents review app codebases against current Apple App Store Review Guidelines and Google Play Developer Program Policies **before submission**.
 
-**40 YAML policy files** covering:
+**38 YAML policy files** covering:
 - Apple App Store Review Guidelines (sections 1-5)
 - Google Play Developer Program Policies (all categories)
 - Cross-platform rules (privacy, payments, account deletion, content rating)
@@ -80,7 +80,9 @@ _meta:
   source_url: "https://developer.apple.com/app-store/review/guidelines/"
   section_id: "1"
   last_verified: "2026-03-09"
+  last_changed: "YYYY-MM-DD"             # When the actual policy last changed
   severity_if_violated: "rejection" | "warning" | "recommendation"
+  version: string                          # e.g., "2026-03"
 
 rules:
   - id: "apple-1.1.1"

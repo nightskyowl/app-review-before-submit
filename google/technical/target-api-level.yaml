@@ -20,4 +20,12 @@ rules:
       - "Check AndroidManifest.xml for uses-sdk android:targetSdkVersion"
     common_violations:
       - "Your app currently targets API level 33 and must target at least API level 34 to ensure it is built on the latest APIs."
+    platform_specific:
+      flutter:
+        - "Check android/app/build.gradle for targetSdkVersion or targetSdk — must be >= 34 for new apps"
+      react_native:
+        - "Check android/app/build.gradle for targetSdkVersion — must be >= 34 for new apps"
+      kotlin:
+        - "Check app/build.gradle.kts for targetSdk — must be >= 34 for new apps"
+    related_rules: []
     notes: "Apps that do not update their target API level will not be discoverable by new users whose devices run Android OS versions newer than the app's target API level."

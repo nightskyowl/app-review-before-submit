@@ -3,32 +3,42 @@
 
 apple:
   review-guidelines:
-    1-safety: null
-    2-performance: null
-    3-business: null
-    4-design: null
-    5-legal: null
-  technical: {}
-  common-rejections: null
+    1-safety: "2026-03-09"
+    2-performance: "2026-03-09"
+    3-business: "2026-03-09"
+    4-design: "2026-03-09"
+    5-legal: "2026-03-09"
+  technical:
+    app-signing: "2026-03-09"
+    entitlements: "2026-03-09"
+    info-plist-requirements: "2026-03-09"
+    privacy-manifest: "2026-03-09"
+    app-store-connect-metadata: "2026-03-09"
+  common-rejections: "2026-03-09"
 
 google:
   play-policy:
-    restricted-content: null
-    intellectual-property: null
-    privacy-deception-device-abuse: null
-    monetization-ads: null
-    store-listing-promotion: null
-    spam-minimum-functionality: null
-    malware-mups: null
-    families-policy: null
-    sdk-requirements: null
-  technical: {}
-  common-rejections: null
+    restricted-content: "2026-03-09"
+    intellectual-property: "2026-03-09"
+    privacy-deception-device-abuse: "2026-03-09"
+    monetization-ads: "2026-03-09"
+    store-listing-promotion: "2026-03-09"
+    spam-minimum-functionality: "2026-03-09"
+    malware-mups: "2026-03-09"
+    families-policy: "2026-03-09"
+    sdk-requirements: "2026-03-09"
+  technical:
+    target-api-level: "2026-03-09"
+    permissions-declarations: "2026-03-09"
+    data-safety-section: "2026-03-09"
+    app-signing: "2026-03-09"
+    android-manifest-requirements: "2026-03-09"
+  common-rejections: "2026-03-09"
 
 shared:
-  privacy-checklist: null
-  payment-rules: null
-  content-rating: null
-  account-deletion: null
-  login-requirements: null
-  pre-submission-checklist: null
+  privacy-checklist: "2026-03-09"
+  payment-rules: "2026-03-09"
+  content-rating: "2026-03-09"
+  account-deletion: "2026-03-09"
+  login-requirements: "2026-03-09"
+  pre-submission-checklist: "2026-03-09"

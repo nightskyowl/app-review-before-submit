@@ -29,7 +29,8 @@ rules:
       - "Does the subscription provide ongoing value rather than a single static unlock?"
       - "Can the user access the subscription across all their Apple devices?"
     code_signals:
-      - "N/A - Primarily a business model and functional check"
+      - "Search for SKProduct or StoreKit subscription configuration files and verify subscription durations (subscriptionPeriod) are >= 7 days"
+      - "Check for auto-renewable subscription product IDs in StoreKit configuration or App Store Connect metadata"
     common_violations:
       - "Rejection for making a basic utility scan tool a $50/week subscription without ongoing value"
     platform_specific: {}

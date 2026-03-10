@@ -25,13 +25,23 @@
   "skill_file": "SKILL.md",
   "policy_files": {
     "apple": [
+      "apple/common-rejections.yaml",
       "apple/review-guidelines/1-safety.yaml",
       "apple/review-guidelines/2-performance.yaml",
       "apple/review-guidelines/3-business.yaml",
       "apple/review-guidelines/4-design.yaml",
-      "apple/review-guidelines/5-legal.yaml"
+      "apple/review-guidelines/5-legal.yaml",
+      "apple/technical/app-signing.yaml",
+      "apple/technical/entitlements.yaml",
+      "apple/technical/info-plist-requirements.yaml",
+      "apple/technical/privacy-manifest.yaml",
+      "apple/technical/app-store-connect-metadata.yaml",
+      "apple/technical/platform-specifics/flutter-ios.yaml",
+      "apple/technical/platform-specifics/react-native-ios.yaml",
+      "apple/technical/platform-specifics/swift-native.yaml"
     ],
     "google": [
+      "google/common-rejections.yaml",
       "google/play-policy/restricted-content.yaml",
       "google/play-policy/intellectual-property.yaml",
       "google/play-policy/privacy-deception-device-abuse.yaml",
@@ -40,7 +50,15 @@
       "google/play-policy/spam-minimum-functionality.yaml",
       "google/play-policy/malware-mups.yaml",
       "google/play-policy/families-policy.yaml",
-      "google/play-policy/sdk-requirements.yaml"
+      "google/play-policy/sdk-requirements.yaml",
+      "google/technical/target-api-level.yaml",
+      "google/technical/permissions-declarations.yaml",
+      "google/technical/data-safety-section.yaml",
+      "google/technical/app-signing.yaml",
+      "google/technical/android-manifest-requirements.yaml",
+      "google/technical/platform-specifics/flutter-android.yaml",
+      "google/technical/platform-specifics/react-native-android.yaml",
+      "google/technical/platform-specifics/kotlin-native.yaml"
     ],
     "shared": [
       "shared/privacy-checklist.yaml",

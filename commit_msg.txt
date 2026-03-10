@@ -1,0 +1,9 @@
+fix: v0.1.0-beta — fix cross-references, metadata index, schema violations, and staleness tracking
+
+- Fix wrong related_rules in restricted-content.yaml
+- Add all technical + common-rejections files to metadata.json
+- Replace N/A code_signals with actionable patterns
+- Populate last-updated.yaml with actual dates
+- Add cross-references to 1-safety.yaml
+- Fix root SKILL.md to load technical files
+- Fix shared source_urls, README accuracy, skill formatting

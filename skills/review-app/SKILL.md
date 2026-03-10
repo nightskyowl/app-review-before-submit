@@ -45,18 +45,23 @@ All policy rules are in YAML files within this plugin's directory:
 ## Phase 3: Compliance Report
 
 Generate a structured report:
-App Review Compliance Report
-Platform(s) detected: [iOS, Android, Flutter, React Native]
-Total rules checked: [X] / Passed: [Y] / Failed: [Z] / Needs manual review: [W]
-Critical failures (rejection-likely)
-[Rule ID] - [Title]
-What was found: [Evidence from code]
-What needs to change: [Actionable fix]
-Warnings
-[Rule ID] - [Title]
-What was found: [Evidence]
-What needs to change: [Mitigation]
-Recommendations
-[Rule ID] - [Title]
-What was found: [Evidence]
-What needs to change: [Suggestion]
+
+# App Review Compliance Report
+
+- **Platform(s) detected:** [e.g., iOS, Android, Flutter, React Native]
+- **Total rules checked:** [X] / **Passed:** [Y] / **Failed:** [Z] / **Needs manual review:** [W]
+
+### 🚨 Critical failures (rejection-likely)
+- **[Rule ID]** - **[Title]**
+  - **What was found:** [Evidence from code]
+  - **What needs to change:** [Actionable fix]
+
+### ⚠️ Warnings
+- **[Rule ID]** - **[Title]**
+  - **What was found:** [Evidence]
+  - **What needs to change:** [Mitigation]
+
+### 💡 Recommendations
+- **[Rule ID]** - **[Title]**
+  - **What was found:** [Evidence]
+  - **What needs to change:** [Suggestion]

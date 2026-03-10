@@ -1,6 +1,7 @@
 ---
 name: App Review Compliance Check
 description: AI-native compliance knowledge base and review skill for Apple App Store and Google Play developer policies. Scans app codebases against current review guidelines and generates a compliance report before submission.
+allowed-tools: Read, Grep, Glob, WebFetch
 ---
 
 # App Review Compliance Check
@@ -24,8 +25,8 @@ Scan the codebase against policy rules to find compliance issues before submissi
    - React Native: Check for `package.json` with `react-native` dep + both platform dirs
 
 2. For each detected platform, load the relevant YAML policy files from this repo:
-   - **Apple**: Load all files in `apple/review-guidelines/` (e.g., `apple/review-guidelines/1-safety.yaml`)
-   - **Google**: Load all files in `google/play-policy/` (e.g., `google/play-policy/restricted-content.yaml`)
+   - **Apple**: Load all files in `apple/review-guidelines/`, `apple/technical/`, and `apple/common-rejections.yaml`
+   - **Google**: Load all files in `google/play-policy/`, `google/technical/`, and `google/common-rejections.yaml`
    - **Shared**: Load all files in `shared/` (e.g., `shared/privacy-checklist.yaml`)
 
 3. Execute every `code_signals` entry against the codebase using grep/search. Example patterns:

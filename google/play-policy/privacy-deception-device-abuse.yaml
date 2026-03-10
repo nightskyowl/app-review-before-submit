@@ -61,7 +61,8 @@ rules:
       - "Does the app actually provide the functionality advertised in the store listing screenshots and description?"
       - "Does the app avoid claiming physically impossible hardware features (e.g., 'X-Ray Scanner', 'Mosquito Repellent')?"
     code_signals:
-      - "N/A - Manual comparison between store listing metadata claims and actual app logic."
+      - "Compare app permission requests in AndroidManifest.xml against permissions declared in Play Console data safety section"
+      - "Search for feature descriptions in store listing metadata files and verify corresponding code paths exist"
     common_violations:
       - "Rejection for a puzzle game using screenshots of high-end 3D racing."
       - "App claiming to measure blood pressure simply by having the user touch the standard screen."
@@ -99,7 +100,8 @@ rules:
       - "Are the developer name, contact info, and organization details accurately represented?"
       - "Does the app avoid impersonating or claiming affiliation with government entities if unauthorized?"
     code_signals:
-      - "N/A - Manual review of developer account metadata and origins."
+      - "Check for multiple app IDs, package names, or developer account references in build configuration files (build.gradle, app.json)"
+      - "Search for obfuscated or dynamically loaded code patterns: DexClassLoader, reflection-based class loading, Runtime.exec()"
     common_violations:
       - "A developer claiming to be based in the US to distribute politically sensitive election news while actually operating in a sanctioned country."
       - "A privately built utility app using a national government agency's direct branding."

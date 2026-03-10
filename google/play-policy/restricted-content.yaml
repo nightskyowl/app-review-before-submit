@@ -26,7 +26,7 @@ rules:
       - "App lacks an in-app reporting feature to flag abusive users in a social experience."
       - "Social app doesn't have terms of service explicitly prohibiting CSAM."
     platform_specific:
-      android:
+      kotlin:
         - "Check if intent to send feedback or report abuse is properly handled via `Intent.ACTION_SENDTO` or an internal API call."
     related_rules:
       - "apple-1.3"
@@ -47,7 +47,7 @@ rules:
       - "Dating apps focused explicitly on 'sugar dating' or compensated arrangements."
       - "Apps featuring 'x-ray scanner' pranks that simulate seeing through clothing."
     related_rules:
-      - "apple-1.1.1"
+      - "apple-1.1.4"
     notes: "Incidental catalog apps distributing books/videos have specific exemptions if adult titles constitute a minor fraction and are non-promoted."
 
   - id: "google-restricted-content-3"
@@ -62,7 +62,7 @@ rules:
     common_violations:
       - "Social apps failing to moderate and explicitly define hate speech in community guidelines."
     related_rules:
-      - "apple-1.1.2"
+      - "apple-1.1.1"
     notes: "Educational, documentary, scientific, or artistic (EDSA) content related to Nazis may be blocked depending on local laws."
 
   - id: "google-restricted-content-4"
@@ -79,7 +79,7 @@ rules:
       - "Apps instructing on how to assemble or 3D-print firearm parts."
       - "Games describing real-looking suicides or self-harm without context."
     related_rules:
-      - "apple-1.1.3"
+      - "apple-1.1.2"
     notes: "Fictional violence in the context of cartoons, games, or hunting is generally allowed."
 
   - id: "google-restricted-content-5"
