@@ -1,71 +1,42 @@
-# Workspace Rules — app-review-before-submit
+Workspace Rules — app-review-before-submit
 
 This project is an open-source AI-native compliance knowledge base for Apple App Store and Google Play review policies.
+Repo: https://github.com/nightskyowl/app-review-before-submit
+License: MIT
 
-**Repo:** https://github.com/nightskyowl/app-review-before-submit
-**License:** MIT
-
-Always read `CLAUDE.md` at the repo root before starting any task. It contains the full YAML schema, project rules, build process, quality standards, and review checklists that apply to all agents working on this project — including you.
+Read CLAUDE.md at the repo root before starting any task. It contains the full YAML schema, project rules, and quality checklist.
 
 ---
+Quick Reference (Details in CLAUDE.md)
 
-## Quick Reference (Details in CLAUDE.md)
-
-### What This Repo Contains
-
+What This Repo Contains
 - Structured YAML files with policy rules for Apple App Store and Google Play
 - An AI agent skill (SKILL.md) for reviewing app codebases against these policies
 - Update mechanisms for keeping policies current
 
-### Mandatory Project Rules
+Mandatory Project Rules
+1. YAML schema is sacred — every policy document follows the schema defined in CLAUDE.md. No exceptions.
+2. Rule IDs map to official numbering — apple-1.1.1, google-restricted-content-1, etc. Never invent IDs.
+3. code_signals must be actionable — grep-able patterns, not vague descriptions.
+4. check_criteria must be boolean — yes/no questions only.
+5. last_verified must be updated — set to today's date when verifying against source.
+6. Cross-references matter — link Apple ↔ Google equivalents via related_rules.
+7. Framework-specific sections are optional — only add where there's a real difference.
+8. Common rejections are gold — real developer rejection experiences over restated policy text.
+9. Never auto-merge policy updates — always require human review.
 
-1. **YAML schema is sacred** — every policy document follows the schema defined in CLAUDE.md. No exceptions.
-2. **Rule IDs map to official numbering** — `apple-1.1.1`, `google-restricted-content-1`, etc. Never invent IDs.
-3. **`code_signals` must be actionable** — grep-able patterns, not vague descriptions.
-4. **`check_criteria` must be boolean** — yes/no questions only.
-5. **`last_verified` must be updated** — set to today's date when verifying against source.
-6. **Cross-references matter** — link Apple ↔ Google equivalents via `related_rules`.
-7. **Framework-specific sections are optional** — only add where there's a real difference.
-8. **Common rejections are gold** — real developer rejection experiences over restated policy text.
-9. **Never auto-merge policy updates** — always require human review.
-10. **Always use GitHub MCP tools** for GitHub operations — never `gh` CLI commands.
-
-### YAML Coding Standards
-
+YAML Coding Standards
 - 2-space indentation, no tabs, UTF-8 encoding
 - Double quotes for strings with special characters; plain strings otherwise
-- Lines under 120 characters; use YAML block scalars (`|` or `>`) for long text
-- File naming: lowercase, hyphen-separated (e.g., `privacy-deception-device-abuse.yaml`)
+- Lines under 120 characters; use YAML block scalars (| or >) for long text
+- File naming: lowercase, hyphen-separated (e.g., privacy-deception-device-abuse.yaml)
 
-### Commit Message Format
-
-```
+Commit Message Format
 type: scope — description
-```
-
-Types: `setup`, `content`, `fix`, `update`, `docs`, `ci`
-
-### Branching
-
-- `main` — protected, requires PR review
-- Feature branches: `sprint-{N}/{description}`
+Types: setup, content, fix, update, docs, ci
 
 ---
-
-## Dual-Agent Workflow
-
-This project uses two agents:
-
-- **Claude Code** (in Antigravity terminal): Planning, architecture, schema definition, final review, SKILL.md, README.md, automation
-- **Antigravity agent** (you): Bulk YAML content creation, policy research, writing rules with code_signals/check_criteria/common_violations, framework-specific patterns
-
-Claude Code sets the contract. You do the heavy lifting. Claude Code reviews before merge.
-
----
-
-## Before Every Task
-
-1. Read `CLAUDE.md` for the full schema and rules
-2. Check `meta/sources.yaml` for official source URLs
-3. Follow the 4-step build process in CLAUDE.md: Research → Structure → Write Rules → Validate
-4. Run through the validation checklist before considering any file done
+Before Every Task
+1. Read CLAUDE.md for the full schema and rules
+2. Check meta/sources.yaml for official source URLs
+3. Run through the quality checklist in CLAUDE.md before considering any file done
