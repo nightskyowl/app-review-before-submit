@@ -1,3 +1,14 @@
+# OS files
 desktop.ini
 .DS_Store
 Thumbs.db
+
+# Local IDE / agent settings
+.claude/
+.vscode/
+.idea/
+*.local.json
+
+# Workflow artifacts
+commit.ps1
+commit_msg.txt
